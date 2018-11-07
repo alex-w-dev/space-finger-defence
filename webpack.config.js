@@ -4,22 +4,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs')
 
-function generateHtmlPlugins(templateDir) {
-  const templateFiles = fs.readdirSync(path.resolve(__dirname, templateDir));
-  return templateFiles.map(item => {
-    const parts = item.split('.');
-    const name = parts[0];
-    const extension = parts[1];
-    return new HtmlWebpackPlugin({
-      filename: `${name}.html`,
-      template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`),
-      inject: false,
-    })
-  })
-}
-
-const htmlPlugins = generateHtmlPlugins('./src/html/views');
-
 module.exports = {
   entry: [
     './src/js/index.js',
@@ -95,6 +79,9 @@ module.exports = {
       filename: "./css/style.bundle.css"
     }),
     new CopyWebpackPlugin([{
+        from: './src/index.html',
+        to: './index.html'
+      },{
         from: './src/fonts',
         to: './fonts'
       },
@@ -111,5 +98,5 @@ module.exports = {
         to: './uploads'
       }
     ]),
-  ].concat(htmlPlugins)
+  ]
 };
