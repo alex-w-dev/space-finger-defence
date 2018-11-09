@@ -15,11 +15,15 @@ export default class Level {
   charsets;
   UFOs;
 
+  _movingUFOsInterval;
+
   constructor(app) {
     this.app = app;
 
     this.number = 1;
     this.levels = this._initLevel(this.number);
+
+    this._startMovingUFOs();
   }
 
   nextLevel() {
@@ -45,31 +49,50 @@ export default class Level {
       return new SpaceUFO(this.app, charset);
     });
 
-    // update UFOs positions to set UFO's grid
-    const gridWidth = this.app.screen.width - Level.UFO_GRID_OFFSET;
-    let line = 0;
+    {
+      // update UFOs positions to set UFO's grid
+      const gridWidth = this.app.screen.width - Level.UFO_GRID_OFFSET;
+      let line = 0;
 
-    const totalUFOWidth = this.UFOs[0].container.width + Level.UFO_OFFSET;
-    // maximum UFOs in line
-    const countInLine = Math.floor(gridWidth / totalUFOWidth);
-    // needs to middle grid position
-    const lineLeftOffset = (gridWidth % totalUFOWidth) / 2;
-    const lineHeight = this.UFOs[0].container.height + Level.UFO_OFFSET;
-    this.UFOs.forEach((UFO, i) => {
-      let UFOLineIndex = (i - countInLine * line);
+      const totalUFOWidth = this.UFOs[0].container.width + Level.UFO_OFFSET;
+      // maximum UFOs in line
+      const countInLine = Math.floor(gridWidth / totalUFOWidth);
+      // needs to middle grid position
+      const lineLeftOffset = (gridWidth % totalUFOWidth) / 2;
+      const lineHeight = this.UFOs[0].container.height + Level.UFO_OFFSET;
+      this.UFOs.forEach((UFO, i) => {
+        let UFOLineIndex = (i - countInLine * line);
 
-      if (UFOLineIndex >= countInLine) {
-        line++;
-        UFOLineIndex = (i - countInLine * line)
-      }
+        if (UFOLineIndex >= countInLine) {
+          line++;
+          UFOLineIndex = (i - countInLine * line)
+        }
 
-      UFO.container.x = Level.UFO_GRID_OFFSET + lineLeftOffset + UFO.container.width / 2 + UFO.container.width * UFOLineIndex + Level.UFO_OFFSET * UFOLineIndex;
-      UFO.container.y = Level.UFO_GRID_INITIAL_BOTTOM - line * lineHeight;
-    });
+        UFO.container.x = Level.UFO_GRID_OFFSET + lineLeftOffset + UFO.container.width / 2 + UFO.container.width * UFOLineIndex + Level.UFO_OFFSET * UFOLineIndex;
+        UFO.container.y = Level.UFO_GRID_INITIAL_BOTTOM - line * lineHeight;
+      });
+    }
+
+    {
+      //
+    }
   }
 
   _getRandomCharset(length) {
     const allCharsClone = _.shuffle([...allChars]);
     return allCharsClone.splice(0, length);
+  }
+
+  _startMovingUFOs() {
+    this._movingUFOsInterval = setInterval(() => {
+      this.UFOs.forEach((UFO) => {
+        UFO.moveForward();
+      });
+
+      if (this.UFOs.some((UFO) => UFO.container.y > this.app.screen.height - 100)) {
+        // TODO game over: FAIL
+        clearInterval(this._movingUFOsInterval);
+      }
+    }, 100)
   }
 }

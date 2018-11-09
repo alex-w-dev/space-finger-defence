@@ -73,7 +73,7 @@ export default class SpaceUFO {
   }
 
   moveForward() {
-    this.sprite.y += 50;
+    this.sprite.y += this.UFOSprite.height;
   }
 
   destroy() {
