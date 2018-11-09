@@ -16,9 +16,7 @@ export default class SpaceUFO {
   static getSizeFromCharset(charset) {
     const width = charset.length * SpaceUFO.CHAR_WIDTH; // 9.8 * 4 ,
 
-    console.log(width, 'width');
-    const height = SpaceUFO.CHAR_HEIGHT + ((width / SpaceUFO.ORIGINAL_SPRITE_WIDTH) * SpaceUFO.ORIGINAL_SPRITE_HEIGHT)
-    console.log(height, 'height');
+    const height = SpaceUFO.CHAR_HEIGHT + ((width / SpaceUFO.ORIGINAL_SPRITE_WIDTH) * SpaceUFO.ORIGINAL_SPRITE_HEIGHT);
     return {
       width: width,
       height: height,

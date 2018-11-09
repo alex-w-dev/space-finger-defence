@@ -2,17 +2,20 @@ import SpaceUFO from "./game-objects/space-ufo";
 import _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import SpaceShip from './game-objects/space-ship';
-import Levels from "./classes/levels";
+import Level from "./classes/level";
 
 
 const app = new PIXI.Application(800, 600, { transparent: true });
 document.body.appendChild(app.view);
 
 const spaceShip = new SpaceShip(app);
-const spaceUFO = new SpaceUFO(app, ['d',]);
+// const spaceUFO = new SpaceUFO(app, ['d',]);
 //
-// const levels = new Levels(app);
-// console.log(levels, 'levels');
+const level = new Level(app);
+console.log(level, 'levels');
 
 app.stage.addChild(spaceShip.sprite);
-app.stage.addChild(spaceUFO.container);
+
+for (let UFO of level.UFOs) {
+  app.stage.addChild(UFO.container);
+}
