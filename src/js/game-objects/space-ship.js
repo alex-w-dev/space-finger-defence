@@ -1,4 +1,4 @@
-const PIXI = require('../lib/pixi/pixi');
+import * as PIXI from 'pixi.js';
 
 export default class SpaceShip {
   sprite;
