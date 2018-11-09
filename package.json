@@ -13,7 +13,9 @@
     "beautify": "html dist/*.html --indent-size 2",
     "clear": "del-cli dist"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
