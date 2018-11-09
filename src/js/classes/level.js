@@ -22,8 +22,6 @@ export default class Level {
 
     this.number = 1;
     this.levels = this._initLevel(this.number);
-
-    this._startMovingUFOs();
   }
 
   nextLevel() {
@@ -81,18 +79,5 @@ export default class Level {
   _getRandomCharset(length) {
     const allCharsClone = _.shuffle([...allChars]);
     return allCharsClone.splice(0, length);
-  }
-
-  _startMovingUFOs() {
-    this._movingUFOsInterval = setInterval(() => {
-      this.UFOs.forEach((UFO) => {
-        UFO.moveForward();
-      });
-
-      if (this.UFOs.some((UFO) => UFO.container.y > this.app.screen.height - 100)) {
-        // TODO game over: FAIL
-        clearInterval(this._movingUFOsInterval);
-      }
-    }, 100)
   }
 }

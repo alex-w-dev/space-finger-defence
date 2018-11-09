@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 
 export default class SpaceUFO {
+  static STEP_SIZE = 0.6;
   static OFFSET = 10;
   static CHAR_HEIGHT = 20;
   static CHAR_WIDTH = 20;
@@ -70,6 +71,15 @@ export default class SpaceUFO {
     this.container.pivot.y = this.container.height / 2;
     this.container.y = 50;
     this.container.x = app.screen.width / 2;
+
+    this.app.ticker.add((delta) => {
+      if (this.container.y > this.app.screen.height - 100) {
+        // TODO game over: FAIL
+        return;
+      }
+      this.container.y += SpaceUFO.STEP_SIZE * delta;
+
+    })
   }
 
   moveForward() {
