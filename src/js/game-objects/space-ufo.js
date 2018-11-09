@@ -47,13 +47,13 @@ export default class SpaceUFO {
       const textStyle = new PIXI.TextStyle({
         align: 'center',
         fill: 'black',
-        fontSize: 30,
+        fontSize: 20,
+        lineHeight: 20,
       });
       const pixiText = new PIXI.Text(char, textStyle);
-      pixiText.width = SpaceUFO.CHAR_WIDTH;
-      pixiText.height = SpaceUFO.CHAR_HEIGHT;
+      pixiText.anchor.set(.5, 0);
       pixiText.y = this.UFOSprite.height;
-      pixiText.x = SpaceUFO.CHAR_WIDTH * i;
+      pixiText.x = SpaceUFO.CHAR_WIDTH * i + SpaceUFO.CHAR_WIDTH / 2;
 
       this.textContainer.addChild(pixiText);
       return {

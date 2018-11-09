@@ -46,7 +46,7 @@ export default class Level {
     const countInLine = Math.floor(gridWidth / totalUFOWidth);
     // needs to middle grid position
     const lineLeftOffset = (gridWidth % totalUFOWidth) / 2;
-    const lineHeight = this.UFOs[0].container.height;
+    const lineHeight = this.UFOs[0].container.height + Level.UFO_OFFSET;
     this.UFOs.forEach((UFO, i) => {
       let UFOLineIndex = (i - countInLine * line);
 
