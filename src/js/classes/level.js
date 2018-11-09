@@ -7,6 +7,7 @@ export default class Level {
   static UFO_GRID_OFFSET = 100;
   static UFO_GRID_INITIAL_BOTTOM = 100;
   static UFO_OFFSET = 50;
+  static MAX_LEVEL = 7;
 
   app;
 
@@ -21,11 +22,18 @@ export default class Level {
     this.levels = this._initLevel(this.number);
   }
 
-  passLevel() {
-    if (!this.UFOs.length) {
+  nextLevel() {
+    if (this.isLevelCompleted()) {
+      if (this.number === Level.MAX_LEVEL) {
+        // TODO game over
+      }
 
       this._initLevel(++this.number);
     }
+  }
+
+  isLevelCompleted() {
+    return !this.UFOs.length;
   }
 
   _initLevel(levelNumber) {
