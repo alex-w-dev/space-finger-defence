@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import Laser from './laser';
 
 export default class SpaceShip {
   static MOVE_STEP_SIZE = 0.2;
@@ -40,7 +41,9 @@ export default class SpaceShip {
       if (Math.abs(this.container.x - nextUFO.container.x) <= (SpaceShip.MOVE_STEP_SIZE / 2)) {
         this.container.x = nextUFO.container.x;
         this.sprite.texture = this.texturePlayer;
-        // TODO SHUT
+
+        new Laser(this.app, new PIXI.Point(this.sprite.x, this.sprite.y - 40));
+
         this.UFOs.shift();
 
         this.startMoveToNextUFO();
@@ -57,6 +60,12 @@ export default class SpaceShip {
       }
     })
 
+  }
+
+  destroy() {
+    this.app.removeChild(this.sprite);
+
+    this.sprite.destroy();
   }
 
 }

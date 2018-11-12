@@ -79,14 +79,16 @@ export default class SpaceUFO {
       }
       this.container.y += SpaceUFO.STEP_SIZE * delta;
 
-    })
-  }
+    });
 
-  moveForward() {
-    this.sprite.y += this.UFOSprite.height;
+    app.stage.addChild(this.container);
   }
 
   destroy() {
+    this.app.removeChild(this.container);
+
+    this.sprite.destroy();
+    this.container.destroy();
   }
 
 }

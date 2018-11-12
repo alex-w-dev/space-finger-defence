@@ -19,10 +19,6 @@ console.log(level, 'levels');
 
 app.stage.addChild(spaceShip.sprite);
 
-for (let UFO of level.UFOs) {
-  app.stage.addChild(UFO.container);
-}
-
 {
   // actions start
   _.shuffle([...level.UFOs]).forEach((UFO) => spaceShip.addUFO(UFO));
