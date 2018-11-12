@@ -1,19 +1,25 @@
 import * as PIXI from 'pixi.js';
 
 export default class SpaceShip {
-  static MOVE_STEP_SIZE = 0.1;
+  static MOVE_STEP_SIZE = 0.2;
 
   sprite;
   container;
   app;
   UFOs = [];
 
-  moveInterval = false;
+  texturePlayer;
+  texturePlayerLeft;
+  texturePlayerRight;
 
   constructor(app) {
     this.app = app;
 
-    this.sprite = this.container = PIXI.Sprite.fromImage('../../img/spaceArt/png/player.png');
+    this.texturePlayer = new PIXI.Texture.fromImage('../../img/spaceArt/png/player.png');
+    this.texturePlayerLeft = new PIXI.Texture.fromImage('../../img/spaceArt/png/playerLeft.png');
+    this.texturePlayerRight = new PIXI.Texture.fromImage('../../img/spaceArt/png/playerRight.png');
+
+    this.sprite = this.container = new PIXI.Sprite(this.texturePlayer);
     this.sprite.anchor.set(0.5);
     this.sprite.y = this.app.screen.height - 50;
     this.sprite.x = this.app.screen.width / 2;
@@ -33,20 +39,24 @@ export default class SpaceShip {
 
       if (Math.abs(this.container.x - nextUFO.container.x) <= (SpaceShip.MOVE_STEP_SIZE / 2)) {
         this.container.x = nextUFO.container.x;
+        this.sprite.texture = this.texturePlayer;
         // TODO SHUT
         this.UFOs.shift();
 
-        this.moveInterval = null;
         this.startMoveToNextUFO();
       } else {
-        this.container.x += (SpaceShip.MOVE_STEP_SIZE * ((this.container.x > nextUFO.container.x) ? -1 : 1)) * deltaTime
+        const mx = (SpaceShip.MOVE_STEP_SIZE * ((this.container.x > nextUFO.container.x) ? -1 : 1)) * deltaTime;
+
+        if (mx > 0) {
+          this.sprite.texture = this.texturePlayerRight;
+        } else {
+          this.sprite.texture = this.texturePlayerLeft;
+        }
+
+        this.container.x += mx;
       }
     })
 
-  }
-
-  destroy() {
-    if (this.moveInterval) clearInterval(this.moveInterval);
   }
 
 }
