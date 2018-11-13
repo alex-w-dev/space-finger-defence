@@ -7,8 +7,6 @@ import Level from "./classes/level";
 
 const app = new PIXI.Application(800, 600, { transparent: true });
 document.body.appendChild(app.view);
-app.ticker.minFPS = 60;
-
 
 
 const spaceShip = new SpaceShip(app);
@@ -16,8 +14,6 @@ const spaceShip = new SpaceShip(app);
 //
 const level = new Level(app);
 console.log(level, 'levels');
-
-app.stage.addChild(spaceShip.sprite);
 
 {
   // actions start

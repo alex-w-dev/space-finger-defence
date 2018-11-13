@@ -72,9 +72,8 @@ export default class SpaceUFO {
     this.container.y = 50;
     this.container.x = app.screen.width / 2;
 
-    this.app.ticker.add(this.tick);
-
     this.app.stage.addChild(this.container);
+    this.app.ticker.add(this.tick);
   }
 
   takeDamage() {
