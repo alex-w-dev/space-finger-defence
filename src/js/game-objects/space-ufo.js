@@ -72,20 +72,26 @@ export default class SpaceUFO {
     this.container.y = 50;
     this.container.x = app.screen.width / 2;
 
-    this.app.ticker.add((delta) => {
-      if (this.container.y > this.app.screen.height - 100) {
-        // TODO game over: FAIL
-        return;
-      }
-      this.container.y += SpaceUFO.STEP_SIZE * delta;
+    this.app.ticker.add(this.tick);
 
-    });
-
-    app.stage.addChild(this.container);
+    this.app.stage.addChild(this.container);
   }
 
+  takeDamage() {
+    this.destroy();
+  }
+
+  tick = (delta) => {
+    if (this.container.y > this.app.screen.height - 100) {
+      // TODO game over: FAIL
+      return;
+    }
+    this.container.y += SpaceUFO.STEP_SIZE * delta;
+  };
+
   destroy() {
-    this.app.removeChild(this.container);
+    this.app.ticker.remove(this.tick);
+    this.app.stage.removeChild(this.container);
 
     this.sprite.destroy();
     this.container.destroy();

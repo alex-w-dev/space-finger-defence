@@ -42,7 +42,7 @@ export default class SpaceShip {
         this.container.x = nextUFO.container.x;
         this.sprite.texture = this.texturePlayer;
 
-        new Laser(this.app, new PIXI.Point(this.sprite.x, this.sprite.y - 40));
+        new Laser(this.app, new PIXI.Point(this.sprite.x, this.sprite.y - 40), nextUFO);
 
         this.UFOs.shift();
 
@@ -63,7 +63,7 @@ export default class SpaceShip {
   }
 
   destroy() {
-    this.app.removeChild(this.sprite);
+    this.app.stage.removeChild(this.sprite);
 
     this.sprite.destroy();
   }

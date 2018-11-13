@@ -5,25 +5,45 @@ export default class Laser {
 
   app;
   sprite;
+  UFO;
 
-  constructor(app, point) {
+  textureFly;
+  textureShot;
+
+  constructor(app, point, UFO) {
     this.app = app;
+    this.UFO = UFO;
 
-    this.sprite = PIXI.Sprite.fromImage('../../img/spaceArt/png/laserRed.png');
+    this.textureFly = PIXI.Texture.fromImage('../../img/spaceArt/png/laserRed.png');
+    this.textureShot = PIXI.Texture.fromImage('../../img/spaceArt/png/laserRedShot.png');
+
+    this.sprite = new PIXI.Sprite(this.textureFly);
     this.sprite.anchor.set(.5);
     this.sprite.x = point.x;
     this.sprite.y = point.y;
 
     this.app.stage.addChild(this.sprite);
 
-    this.app.ticker.add((delta) => {
-      this.sprite.y -= (Laser.SPEED * delta)
-    })
+    this.app.ticker.add(this.tick);
   }
 
-  destroy() {
-    this.app.removeChild(this.sprite);
+  tick = (delta) => {
+    this.sprite.y -= (Laser.SPEED * delta);
 
-    this.sprite.destroy();
+    if (Math.abs(this.sprite.y - this.UFO.container.y) < 10) {
+      this.UFO.takeDamage();
+      this.destroy();
+    }
+  };
+
+  destroy() {
+    this.sprite.texture = this.textureShot;
+    this.app.ticker.remove(this.tick);
+
+    setTimeout(() => {
+      this.app.stage.removeChild(this.sprite);
+
+      this.sprite.destroy();
+    }, 300);
   }
 }
