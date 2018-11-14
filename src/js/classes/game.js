@@ -1,10 +1,12 @@
 import Events from "./events";
 import Level from "./level";
 import SpaceShip from "../game-objects/space-ship";
+import InputHandler from "./input-handler";
 
 export default class Game {
   /** @type PIXI.Application */
   pixiApp;
+  /** @type InputHandler */
   inputHandler;
   level;
   /** @type SpaceShip */
@@ -23,9 +25,14 @@ export default class Game {
 
   constructor(pixiApp) {
     this.pixiApp = pixiApp;
+    this.inputHandler = new InputHandler();
     this.events = new Events(this);
     this.level = new Level(this);
     this.UFOs = this.level.UFOs;
     this.spaceShip = new SpaceShip(this);
+
+    this.inputHandler.onSpaceClick.subscribe(() => {
+      this.pause = !this.pause;
+    })
   }
 }
