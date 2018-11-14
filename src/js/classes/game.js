@@ -8,6 +8,7 @@ export default class Game {
   pixiApp;
   /** @type InputHandler */
   inputHandler;
+  /** @type Level */
   level;
   /** @type SpaceShip */
   spaceShip;
@@ -27,12 +28,19 @@ export default class Game {
     this.pixiApp = pixiApp;
     this.inputHandler = new InputHandler();
     this.events = new Events(this);
-    this.level = new Level(this);
-    this.UFOs = this.level.UFOs;
     this.spaceShip = new SpaceShip(this);
+    this.level = new Level(this);
 
     this.inputHandler.onSpaceClick.subscribe(() => {
       this.pause = !this.pause;
-    })
+    });
+
+    this.nextLevel();
+  }
+
+  nextLevel() {
+    this.pause = false;
+    this.level.nextLevel();
+    this.UFOs = this.level.UFOs;
   }
 }

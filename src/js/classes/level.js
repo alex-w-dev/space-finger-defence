@@ -25,8 +25,7 @@ export default class Level {
     this.game = game;
     this.pixiApp = game.pixiApp;
 
-    this.number = 1;
-    this._initLevel(this.number);
+    this.number = 0 ;
   }
 
   nextLevel() {
@@ -40,7 +39,7 @@ export default class Level {
   }
 
   isLevelCompleted() {
-    return !this.UFOs.length;
+    return !this.UFOs || !this.UFOs.length;
   }
 
   _initLevel(levelNumber) {
