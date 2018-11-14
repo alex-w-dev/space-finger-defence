@@ -36,6 +36,9 @@ export default class Laser {
   }
 
   tick = (delta) => {
+    if (this.game.pause) {
+      return;
+    }
     this.sprite.y -= (Laser.SPEED * delta);
 
     if (Math.abs(this.sprite.y - this.UFO.container.y) < 10) {

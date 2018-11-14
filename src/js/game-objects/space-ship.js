@@ -40,7 +40,7 @@ export default class SpaceShip {
   }
 
   tick = (deltaTime) => {
-    if (!this.UFOs[0]) {
+    if (this.game.pause || !this.UFOs[0]) {
       return;
     }
     const nextUFO = this.UFOs[0];

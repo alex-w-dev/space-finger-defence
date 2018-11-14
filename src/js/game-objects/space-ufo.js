@@ -87,6 +87,9 @@ export default class SpaceUFO {
   }
 
   tick = (delta) => {
+    if (this.game.pause) {
+      return;
+    }
     if (this.container.y > this.pixiApp.screen.height - 100) {
       return;
     }
