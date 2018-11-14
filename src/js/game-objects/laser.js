@@ -3,14 +3,22 @@ import * as PIXI from 'pixi.js';
 export default class Laser {
   static SPEED = 2;
 
+  /** @type Game */
+  game;
+  /** @type PIXI.Application */
   pixiApp;
+  /** @type PIXI.Sprite */
   sprite;
+  /** @type UFO */
   UFO;
 
+  /** @type PIXI.Texture */
   textureFly;
+  /** @type PIXI.Texture */
   textureShot;
 
   constructor(game, point, UFO) {
+    this.game = game;
     this.pixiApp = game.pixiApp;
     this.UFO = UFO;
 

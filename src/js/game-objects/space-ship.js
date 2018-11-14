@@ -4,14 +4,22 @@ import Laser from './laser';
 export default class SpaceShip {
   static MOVE_STEP_SIZE = 7;
 
+  /** @type PIXI.Sprite */
   sprite;
+  /** @type PIXI.Container */
   container;
+  /** @type Game */
   game;
+  /** @type PIXI.Application */
   pixiApp;
+  /** @type UFO[] */
   UFOs = [];
 
+  /** @type PIXI.Texture */
   texturePlayer;
+  /** @type PIXI.Texture */
   texturePlayerLeft;
+  /** @type PIXI.Texture */
   texturePlayerRight;
 
   constructor(game) {

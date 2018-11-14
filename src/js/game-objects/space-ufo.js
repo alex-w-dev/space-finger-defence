@@ -9,9 +9,14 @@ export default class SpaceUFO {
   static ORIGINAL_SPRITE_WIDTH = 98;
   static ORIGINAL_SPRITE_HEIGHT = 50;
 
+  /** @type PIXI.Sprite */
   UFOSprite;
   textChars;
+  /** @type PIXI.Container */
   container;
+  /** @type Game */
+  game;
+  /** @type PIXI.Application */
   pixiApp;
 
   static getSizeFromCharset(charset) {
@@ -25,6 +30,7 @@ export default class SpaceUFO {
   }
 
   constructor(game, charset) {
+    this.game = game;
     this.pixiApp = game.pixiApp;
 
     const size = SpaceUFO.getSizeFromCharset(charset);
@@ -82,7 +88,6 @@ export default class SpaceUFO {
 
   tick = (delta) => {
     if (this.container.y > this.pixiApp.screen.height - 100) {
-      // TODO game over: FAIL
       return;
     }
     this.container.y += SpaceUFO.STEP_SIZE * delta;

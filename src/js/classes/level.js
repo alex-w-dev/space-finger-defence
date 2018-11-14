@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import SpaceUFO from "../game-objects/space-ufo";
-import SpaceShip from "../game-objects/space-ship";
 
 const allChars = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
@@ -10,11 +9,15 @@ export default class Level {
   static UFO_OFFSET = 50;
   static MAX_LEVEL = 7;
 
+  /** @type Game */
   game;
+  /** @type PIXI.Application */
   pixiApp;
 
   number;
+  /** @type string[][] */
   charsets;
+  /** @type UFO[] */
   UFOs;
 
 
@@ -29,7 +32,7 @@ export default class Level {
   nextLevel() {
     if (this.isLevelCompleted()) {
       if (this.number === Level.MAX_LEVEL) {
-        // TODO game over
+        // TODO game over: WIN
       }
 
       this._initLevel(++this.number);
