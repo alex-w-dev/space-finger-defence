@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import SpaceUFO from "../game-objects/space-ufo";
+import SpaceShip from "../game-objects/space-ship";
 
 const allChars = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
@@ -9,19 +10,20 @@ export default class Level {
   static UFO_OFFSET = 50;
   static MAX_LEVEL = 7;
 
-  app;
+  game;
+  pixiApp;
 
   number;
   charsets;
   UFOs;
 
-  _movingUFOsInterval;
 
-  constructor(app) {
-    this.app = app;
+  constructor(game) {
+    this.game = game;
+    this.pixiApp = game.pixiApp;
 
     this.number = 1;
-    this.levels = this._initLevel(this.number);
+    this._initLevel(this.number);
   }
 
   nextLevel() {
@@ -44,12 +46,12 @@ export default class Level {
     this.charsets = allChars.map(() => this._getRandomCharset(levelNumber));
 
     this.UFOs = this.charsets.map((charset, i, arr) => {
-      return new SpaceUFO(this.app, charset);
+      return new SpaceUFO(this.game, charset);
     });
 
     {
       // update UFOs positions to set UFO's grid
-      const gridWidth = this.app.screen.width - Level.UFO_GRID_OFFSET;
+      const gridWidth = this.pixiApp.screen.width - Level.UFO_GRID_OFFSET;
       let line = 0;
 
       const totalUFOWidth = this.UFOs[0].container.width + Level.UFO_OFFSET;

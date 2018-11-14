@@ -6,15 +6,17 @@ export default class SpaceShip {
 
   sprite;
   container;
-  app;
+  game;
+  pixiApp;
   UFOs = [];
 
   texturePlayer;
   texturePlayerLeft;
   texturePlayerRight;
 
-  constructor(app) {
-    this.app = app;
+  constructor(game) {
+    this.game = game;
+    this.pixiApp = game.pixiApp;
 
     this.texturePlayer = new PIXI.Texture.fromImage('../../img/spaceArt/png/player.png');
     this.texturePlayerLeft = new PIXI.Texture.fromImage('../../img/spaceArt/png/playerLeft.png');
@@ -22,11 +24,11 @@ export default class SpaceShip {
 
     this.sprite = this.container = new PIXI.Sprite(this.texturePlayer);
     this.sprite.anchor.set(0.5);
-    this.sprite.y = this.app.screen.height - 50;
-    this.sprite.x = this.app.screen.width / 2;
+    this.sprite.y = this.pixiApp.screen.height - 50;
+    this.sprite.x = this.pixiApp.screen.width / 2;
 
-    this.app.stage.addChild(this.sprite);
-    this.app.ticker.add(this.tick);
+    this.pixiApp.stage.addChild(this.sprite);
+    this.pixiApp.ticker.add(this.tick);
   }
 
   tick = (deltaTime) => {
@@ -39,7 +41,7 @@ export default class SpaceShip {
       this.container.x = nextUFO.container.x;
       this.sprite.texture = this.texturePlayer;
 
-      new Laser(this.app, new PIXI.Point(this.sprite.x, this.sprite.y - 40), nextUFO);
+      new Laser(this.game, new PIXI.Point(this.sprite.x, this.sprite.y - 40), nextUFO);
 
       this.UFOs.shift();
     } else {
@@ -60,8 +62,8 @@ export default class SpaceShip {
   }
 
   destroy() {
-    this.app.ticker.remove(this.tick);
-    this.app.stage.removeChild(this.sprite);
+    this.pixiApp.ticker.remove(this.tick);
+    this.pixiApp.stage.removeChild(this.sprite);
 
     this.sprite.destroy();
   }

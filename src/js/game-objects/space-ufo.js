@@ -12,7 +12,7 @@ export default class SpaceUFO {
   UFOSprite;
   textChars;
   container;
-  app;
+  pixiApp;
 
   static getSizeFromCharset(charset) {
     const width = charset.length * SpaceUFO.CHAR_WIDTH; // 9.8 * 4 ,
@@ -24,8 +24,8 @@ export default class SpaceUFO {
     }
   }
 
-  constructor(app, charset) {
-    this.app = app;
+  constructor(game, charset) {
+    this.pixiApp = game.pixiApp;
 
     const size = SpaceUFO.getSizeFromCharset(charset);
 
@@ -70,10 +70,10 @@ export default class SpaceUFO {
     this.container.pivot.x = this.container.width / 2;
     this.container.pivot.y = this.container.height / 2;
     this.container.y = 50;
-    this.container.x = app.screen.width / 2;
+    this.container.x = this.pixiApp.screen.width / 2;
 
-    this.app.stage.addChild(this.container);
-    this.app.ticker.add(this.tick);
+    this.pixiApp.stage.addChild(this.container);
+    this.pixiApp.ticker.add(this.tick);
   }
 
   takeDamage() {
@@ -81,7 +81,7 @@ export default class SpaceUFO {
   }
 
   tick = (delta) => {
-    if (this.container.y > this.app.screen.height - 100) {
+    if (this.container.y > this.pixiApp.screen.height - 100) {
       // TODO game over: FAIL
       return;
     }
@@ -89,8 +89,8 @@ export default class SpaceUFO {
   };
 
   destroy() {
-    this.app.ticker.remove(this.tick);
-    this.app.stage.removeChild(this.container);
+    this.pixiApp.ticker.remove(this.tick);
+    this.pixiApp.stage.removeChild(this.container);
 
     this.sprite.destroy();
     this.container.destroy();

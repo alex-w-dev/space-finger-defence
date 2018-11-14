@@ -3,15 +3,15 @@ import * as PIXI from 'pixi.js';
 export default class Laser {
   static SPEED = 2;
 
-  app;
+  pixiApp;
   sprite;
   UFO;
 
   textureFly;
   textureShot;
 
-  constructor(app, point, UFO) {
-    this.app = app;
+  constructor(game, point, UFO) {
+    this.pixiApp = game.pixiApp;
     this.UFO = UFO;
 
     this.textureFly = PIXI.Texture.fromImage('../../img/spaceArt/png/laserRed.png');
@@ -22,9 +22,9 @@ export default class Laser {
     this.sprite.x = point.x;
     this.sprite.y = point.y;
 
-    this.app.stage.addChild(this.sprite);
+    this.pixiApp.stage.addChild(this.sprite);
 
-    this.app.ticker.add(this.tick);
+    this.pixiApp.ticker.add(this.tick);
   }
 
   tick = (delta) => {
@@ -38,10 +38,10 @@ export default class Laser {
 
   destroy() {
     this.sprite.texture = this.textureShot;
-    this.app.ticker.remove(this.tick);
+    this.pixiApp.ticker.remove(this.tick);
 
     setTimeout(() => {
-      this.app.stage.removeChild(this.sprite);
+      this.pixiApp.stage.removeChild(this.sprite);
 
       this.sprite.destroy();
     }, 300);
