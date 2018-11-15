@@ -58,9 +58,8 @@ export default class Level {
 
       const totalUFOWidth = this.UFOs[0].container.width + Level.UFO_OFFSET;
       // maximum UFOs in line
-      const countInLine = Math.floor(gridWidth / totalUFOWidth);
+      const countInLine = Math.ceil(gridWidth / totalUFOWidth);
       // needs to middle grid position
-      const lineLeftOffset = (gridWidth % totalUFOWidth) / 2;
       const lineHeight = this.UFOs[0].container.height + Level.UFO_OFFSET;
       this.UFOs.forEach((UFO, i) => {
         let UFOLineIndex = (i - countInLine * line);
@@ -70,7 +69,7 @@ export default class Level {
           UFOLineIndex = (i - countInLine * line)
         }
 
-        UFO.container.x = Level.UFO_GRID_OFFSET + lineLeftOffset + UFO.container.width / 2 + UFO.container.width * UFOLineIndex + Level.UFO_OFFSET * UFOLineIndex;
+        UFO.container.x = Level.UFO_GRID_OFFSET / 2 + totalUFOWidth / 2 + totalUFOWidth * UFOLineIndex;
         UFO.container.y = Level.UFO_GRID_INITIAL_BOTTOM - line * lineHeight;
       });
     }

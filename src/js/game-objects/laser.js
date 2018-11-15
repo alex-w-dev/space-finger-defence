@@ -30,7 +30,7 @@ export default class Laser {
     this.sprite.x = point.x;
     this.sprite.y = point.y;
 
-    this.pixiApp.stage.addChild(this.sprite);
+    this.game.worldContainer.addChild(this.sprite);
 
     this.pixiApp.ticker.add(this.tick);
   }
@@ -52,7 +52,7 @@ export default class Laser {
     this.pixiApp.ticker.remove(this.tick);
 
     setTimeout(() => {
-      this.pixiApp.stage.removeChild(this.sprite);
+      this.game.worldContainer.removeChild(this.sprite);
 
       this.sprite.destroy();
     }, 300);

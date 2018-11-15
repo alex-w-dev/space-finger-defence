@@ -75,10 +75,8 @@ export default class SpaceUFO {
 
     this.container.pivot.x = this.container.width / 2;
     this.container.pivot.y = this.container.height / 2;
-    this.container.y = 50;
-    this.container.x = this.pixiApp.screen.width / 2;
 
-    this.pixiApp.stage.addChild(this.container);
+    this.game.worldContainer.addChild(this.container);
     this.pixiApp.ticker.add(this.tick);
   }
 
@@ -90,7 +88,8 @@ export default class SpaceUFO {
     if (this.game.pause) {
       return;
     }
-    if (this.container.y > this.pixiApp.screen.height - 100) {
+    if (this.container.y > this.game.worldContainer.height - 100) {
+      // TODO GamEOVER: FAIL
       return;
     }
     this.container.y += SpaceUFO.STEP_SIZE * delta;
@@ -98,7 +97,7 @@ export default class SpaceUFO {
 
   destroy() {
     this.pixiApp.ticker.remove(this.tick);
-    this.pixiApp.stage.removeChild(this.container);
+    this.game.worldContainer.removeChild(this.container);
 
     this.sprite.destroy();
     this.container.destroy();

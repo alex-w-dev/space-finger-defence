@@ -32,10 +32,10 @@ export default class SpaceShip {
 
     this.sprite = this.container = new PIXI.Sprite(this.texturePlayer);
     this.sprite.anchor.set(0.5);
-    this.sprite.y = this.pixiApp.screen.height - 50;
-    this.sprite.x = this.pixiApp.screen.width / 2;
+    this.sprite.y = this.game.worldContainer.height - 50;
+    this.sprite.x = this.game.worldContainer.width / 2;
 
-    this.pixiApp.stage.addChild(this.sprite);
+    this.game.worldContainer.addChild(this.sprite);
     this.pixiApp.ticker.add(this.tick);
   }
 
@@ -71,7 +71,7 @@ export default class SpaceShip {
 
   destroy() {
     this.pixiApp.ticker.remove(this.tick);
-    this.pixiApp.stage.removeChild(this.sprite);
+    this.game.worldContainer.removeChild(this.sprite);
 
     this.sprite.destroy();
   }
