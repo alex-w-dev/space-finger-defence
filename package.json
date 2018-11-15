@@ -1,7 +1,7 @@
 {
-  "name": "static-site-webpack-habr",
+  "name": "space-finger-defence",
   "version": "1.0.0",
-  "description": "HTML template",
+  "description": "Space Finger Defence: Simple key input game",
   "main": "src/index.js",
   "scripts": {
     "dev": "webpack --mode development",
