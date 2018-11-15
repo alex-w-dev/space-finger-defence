@@ -28,7 +28,7 @@ export default class Game {
   /** @type boolean */
   started = false;
   /** @type boolean */
-  pause = true;
+  pause = false;
   /** @type boolean */
   fail = false;
   /** @type boolean */
@@ -49,17 +49,23 @@ export default class Game {
       this.pixiApp.stage.addChild(container);
     }
 
-    this.inputHandler = new InputHandler();
+    this.inputHandler = new InputHandler(this);
     this.events = new Events(this);
     this.spaceShip = new SpaceShip(this);
     this.level = new Level(this);
     this.interface = new Interface(this);
 
-    this.inputHandler.onSpaceClick.subscribe(() => {
+    this.events.onPauseClick.subscribe(() => {
+      if (! this.started) return;
+
       this.setPause(!this.pause);
     });
+    this.events.onGameStartClick.subscribe(() => {
+      if (this.started) return;
 
-    this.nextLevel();
+      this.setStarted(true);
+      this.nextLevel();
+    });
   }
 
   nextLevel() {
@@ -70,5 +76,10 @@ export default class Game {
   setPause(pause) {
     this.pause = pause;
     this.events.gamePause.next(this.pause);
+  }
+
+  setStarted(started) {
+    this.started = started;
+    this.events.gameStarted.next(this.started);
   }
 }

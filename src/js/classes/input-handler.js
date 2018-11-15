@@ -2,14 +2,18 @@ import { Subject } from 'rxjs';
 
 export default class InputHandler {
   static spaceCode = 'Space';
+  static enterCode = 'Enter';
 
-  onSpaceClick = new Subject();
-
-  constructor() {
+  /** @param { Game } game */
+  constructor(game) {
     window.onkeydown = (e) => {
       if (e.code === InputHandler.spaceCode) {
-        return this.onSpaceClick.next();
+        return game.events.onPauseClick.next();
       }
-    }
+
+      if (e.code === InputHandler.enterCode) {
+        return game.events.onGameStartClick.next();
+      }
+    };
   }
 }
