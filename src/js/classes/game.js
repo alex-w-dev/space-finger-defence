@@ -2,7 +2,7 @@ import Events from "./events";
 import Level from "./level";
 import SpaceShip from "../game-objects/space-ship";
 import InputHandler from "./input-handler";
-import Interface from "../game-objects/interface";
+import Interface from "../interface/interface";
 
 export default class Game {
   /** @type PIXI.Application */

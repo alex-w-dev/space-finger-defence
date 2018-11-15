@@ -1,3 +1,5 @@
+import Button from "./button";
+
 export default class Interface {
   /** @type PIXI.Sprite */
   pauseContainer;
@@ -40,9 +42,14 @@ export default class Interface {
     }));
     pauseText.pivot.y = pauseText.height / 2;
     pauseText.pivot.x = pauseText.width / 2;
-    pauseText.y = this.game.pixiApp.screen.height / 2;
-    pauseText.x = this.game.pixiApp.screen.width / 2;
+    pauseText.y = this.game.interfaceContainer.height / 2;
+    pauseText.x = this.game.interfaceContainer.width / 2;
     this.startMenu.addChild(pauseText);
+
+    const button = this.getButton('Start');
+    button.x = 100;
+    button.y = 100;
+    this.startMenu.addChild(button);
 
     this.game.interfaceContainer.addChild(this.startMenu);
   }
@@ -58,8 +65,8 @@ export default class Interface {
     }));
     pauseText.pivot.y = pauseText.height / 2;
     pauseText.pivot.x = pauseText.width / 2;
-    pauseText.y = this.game.pixiApp.screen.height / 2;
-    pauseText.x = this.game.pixiApp.screen.width / 2;
+    pauseText.y = this.game.interfaceContainer.height / 2;
+    pauseText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseText);
 
     const pauseUnderText = new PIXI.Text('Press "Space" to continue', new PIXI.TextStyle({
@@ -68,8 +75,8 @@ export default class Interface {
     }));
     pauseUnderText.pivot.y = pauseUnderText.height / 2;
     pauseUnderText.pivot.x = pauseUnderText.width / 2;
-    pauseUnderText.y = this.game.pixiApp.screen.height / 2 + 40;
-    pauseUnderText.x = this.game.pixiApp.screen.width / 2;
+    pauseUnderText.y = this.game.interfaceContainer.height / 2 + 40;
+    pauseUnderText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseUnderText);
 
     this.game.interfaceContainer.addChild(this.pauseContainer);
@@ -78,8 +85,16 @@ export default class Interface {
   getGrayBG() {
     const background = new PIXI.Graphics();
     background.beginFill(0x000000, .5);
-    background.drawRect(0, 0, this.game.pixiApp.screen.width, this.game.pixiApp.screen.height);
+    background.drawRect(0, 0, this.game.interfaceContainer.width, this.game.interfaceContainer.height);
     background.endFill();
     return background;
+  }
+
+  getButton(text) {
+    const button = new Button(200, 100);
+    button.setText(text);
+
+    return button;
+
   }
 }
