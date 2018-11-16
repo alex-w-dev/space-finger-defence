@@ -36,19 +36,9 @@ export default class Interface {
 
     this.startMenu.addChild(this.getGrayBG());
 
-    const pauseText = new PIXI.Text('START', new PIXI.TextStyle({
-      fill: 'white',
-      fontSize: 40,
-    }));
-    pauseText.pivot.y = pauseText.height / 2;
-    pauseText.pivot.x = pauseText.width / 2;
-    pauseText.y = this.game.interfaceContainer.height / 2;
-    pauseText.x = this.game.interfaceContainer.width / 2;
-    this.startMenu.addChild(pauseText);
-
-    const button = this.getButton('Start');
-    button.x = 100;
-    button.y = 100;
+    const button = new Button('Start', () => this.game.events.onGameStartClick.next(true));
+    button.y = this.game.interfaceContainer.height / 2;
+    button.x = this.game.interfaceContainer.width / 2;
     this.startMenu.addChild(button);
 
     this.game.interfaceContainer.addChild(this.startMenu);
@@ -65,17 +55,22 @@ export default class Interface {
     }));
     pauseText.pivot.y = pauseText.height / 2;
     pauseText.pivot.x = pauseText.width / 2;
-    pauseText.y = this.game.interfaceContainer.height / 2;
+    pauseText.y = this.game.interfaceContainer.height / 2 - 60;
     pauseText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseText);
 
-    const pauseUnderText = new PIXI.Text('Press "Space" to continue', new PIXI.TextStyle({
+    const button = new Button('Continue', () => this.game.events.onPauseClick.next(true));
+    button.y = this.game.interfaceContainer.height / 2;
+    button.x = this.game.interfaceContainer.width / 2;
+    this.pauseContainer.addChild(button);
+
+    const pauseUnderText = new PIXI.Text('... or press "Space" to continue', new PIXI.TextStyle({
       fill: 'white',
       fontSize: 25,
     }));
     pauseUnderText.pivot.y = pauseUnderText.height / 2;
     pauseUnderText.pivot.x = pauseUnderText.width / 2;
-    pauseUnderText.y = this.game.interfaceContainer.height / 2 + 40;
+    pauseUnderText.y = this.game.interfaceContainer.height / 2 + 60;
     pauseUnderText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseUnderText);
 
@@ -88,13 +83,5 @@ export default class Interface {
     background.drawRect(0, 0, this.game.interfaceContainer.width, this.game.interfaceContainer.height);
     background.endFill();
     return background;
-  }
-
-  getButton(text) {
-    const button = new Button(200, 100);
-    button.setText(text);
-
-    return button;
-
   }
 }
