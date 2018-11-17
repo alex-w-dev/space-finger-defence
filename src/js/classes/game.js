@@ -5,6 +5,8 @@ import InputHandler from "./input-handler";
 import Interface from "../interface/interface";
 
 export default class Game {
+  static CHOOT_CHARS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
   /** @type PIXI.Application */
   pixiApp;
   /** @type Interface */
@@ -15,8 +17,6 @@ export default class Game {
   level;
   /** @type SpaceShip */
   spaceShip;
-  /** @type UFO[] */
-  UFOs;
   /** @type Events */
   events;
 
@@ -66,11 +66,15 @@ export default class Game {
       this.setStarted(true);
       this.nextLevel();
     });
+    this.events.onShootCharClick.subscribe((key) => {
+      if (!this.started || this.pause) return;
+
+      this.shootUFO(key)
+    });
   }
 
   nextLevel() {
     this.level.nextLevel();
-    this.UFOs = this.level.UFOs;
   }
 
   setPause(pause) {
@@ -81,5 +85,9 @@ export default class Game {
   setStarted(started) {
     this.started = started;
     this.events.gameStarted.next(this.started);
+  }
+
+  shootUFO(key) {
+    this.level.UFOs.find((UFO) => UFO.)
   }
 }

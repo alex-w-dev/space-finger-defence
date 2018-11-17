@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import SpaceUFO from "../game-objects/space-ufo";
-
-const allChars = 'abcdefghijklmnopqrstuvwxyz'.split('');
+import Game from "./game";
 
 export default class Level {
   static UFO_GRID_OFFSET = 100;
@@ -45,7 +44,7 @@ export default class Level {
   _initLevel(levelNumber) {
     this.number = levelNumber;
 
-    this.charsets = allChars.map(() => this._getRandomCharset(levelNumber));
+    this.charsets = Game.CHOOT_CHARS.map(() => this._getRandomCharset(levelNumber));
 
     this.UFOs = this.charsets.map((charset, i, arr) => {
       return new SpaceUFO(this.game, charset);
@@ -80,7 +79,7 @@ export default class Level {
   }
 
   _getRandomCharset(length) {
-    const allCharsClone = _.shuffle([...allChars]);
+    const allCharsClone = _.shuffle([...Game.CHOOT_CHARS]);
     return allCharsClone.splice(0, length);
   }
 }

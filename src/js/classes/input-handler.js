@@ -1,4 +1,5 @@
 import { Subject } from 'rxjs';
+import Game from "./game";
 
 export default class InputHandler {
   static spaceCode = 'Space';
@@ -13,6 +14,10 @@ export default class InputHandler {
 
       if (e.code === InputHandler.enterCode) {
         return game.events.onGameStartClick.next();
+      }
+
+      if (Game.CHOOT_CHARS.includes(e.key.toLowerCase())) {
+        return game.events.onShootCharClick.next(e.key.toLowerCase());
       }
     };
   }

@@ -1,7 +1,14 @@
 import * as PIXI from 'pixi.js';
 
+/**
+ * @typedef { Object } TextChar
+ * @property { string } value
+ * @property { boolean } checked
+ * @property { PIXI.Text } pixiText
+ * */
+
 export default class SpaceUFO {
-  static STEP_SIZE = 0.6;
+  static STEP_SIZE = 0.1;
   static OFFSET = 10;
   static CHAR_HEIGHT = 20;
   static CHAR_WIDTH = 20;
@@ -11,6 +18,7 @@ export default class SpaceUFO {
 
   /** @type PIXI.Sprite */
   UFOSprite;
+  /** @type TextChar[] */
   textChars;
   /** @type PIXI.Container */
   container;
@@ -103,4 +111,13 @@ export default class SpaceUFO {
     this.container.destroy();
   }
 
+  getFreeTextChar(char) {
+    return this.textChars.find(textChar => textChar.value === char && !textChar.checked);
+  }
+
+  checkTextChar(textChar) {
+    if (textChar.checked) return;
+
+    textChar.checked = true;
+  }
 }

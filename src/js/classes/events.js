@@ -3,6 +3,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 export default class Events {
   onPauseClick = new Subject();
   onGameStartClick = new Subject();
+  onShootCharClick = new Subject();
 
   /** @type BehaviorSubject<Game.started> */
   gameStarted;
