@@ -12,8 +12,8 @@ export default class SpaceShip {
   game;
   /** @type PIXI.Application */
   pixiApp;
-  /** @type UFO[] */
-  UFOs = [];
+  /** @type SpaceUFOTextChar[] */
+  spaceUFOTextChars = [];
 
   /** @type PIXI.Texture */
   texturePlayer;
@@ -40,20 +40,20 @@ export default class SpaceShip {
   }
 
   tick = (deltaTime) => {
-    if (this.game.pause || !this.UFOs[0]) {
+    if (this.game.pause || !this.spaceUFOTextChars[0]) {
       return;
     }
-    const nextUFO = this.UFOs[0];
+    const spaceUFOTextChar = this.spaceUFOTextChars[0];
 
-    if (Math.abs(this.container.x - nextUFO.container.x) <= (SpaceShip.MOVE_STEP_SIZE / 2)) {
-      this.container.x = nextUFO.container.x;
+    if (Math.abs(this.container.x - spaceUFOTextChar.UFO.container.x) <= (SpaceShip.MOVE_STEP_SIZE / 2)) {
+      this.container.x = spaceUFOTextChar.UFO.container.x;
       this.sprite.texture = this.texturePlayer;
 
-      new Laser(this.game, new PIXI.Point(this.sprite.x, this.sprite.y - 40), nextUFO);
+      new Laser(this.game, new PIXI.Point(this.sprite.x, this.sprite.y - 40), spaceUFOTextChar);
 
-      this.UFOs.shift();
+      this.spaceUFOTextChars.shift();
     } else {
-      const mx = (SpaceShip.MOVE_STEP_SIZE * ((this.container.x > nextUFO.container.x) ? -1 : 1)) * deltaTime;
+      const mx = (SpaceShip.MOVE_STEP_SIZE * ((this.container.x > spaceUFOTextChar.UFO.container.x) ? -1 : 1)) * deltaTime;
 
       if (mx > 0) {
         this.sprite.texture = this.texturePlayerRight;
@@ -65,8 +65,8 @@ export default class SpaceShip {
     }
   };
 
-  addUFO(UFO) {
-    this.UFOs.push(UFO);
+  addTextChar(spaceUFOTextChar) {
+    this.spaceUFOTextChars.push(spaceUFOTextChar);
   }
 
   destroy() {

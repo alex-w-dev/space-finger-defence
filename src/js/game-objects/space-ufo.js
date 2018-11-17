@@ -1,10 +1,11 @@
 import * as PIXI from 'pixi.js';
 
 /**
- * @typedef { Object } TextChar
+ * @typedef { Object } SpaceUFOTextChar
  * @property { string } char
  * @property { boolean } checked
  * @property { PIXI.Text } pixiText
+ * @property { SpaceUFO } UFO
  * */
 
 export default class SpaceUFO {
@@ -18,8 +19,8 @@ export default class SpaceUFO {
 
   /** @type PIXI.Sprite */
   UFOSprite;
-  /** @type TextChar[] */
-  textChars;
+  /** @type SpaceUFOTextChar[] */
+  spaceUFOTextChars;
   /** @type PIXI.Container */
   container;
   /** @type Game */
@@ -60,7 +61,7 @@ export default class SpaceUFO {
     this.textContainer.width = size.width;
     this.textContainer.height = 20;
 
-    this.textChars = charset.map((char, i) => {
+    this.spaceUFOTextChars = charset.map((char, i) => {
       const textStyle = new PIXI.TextStyle({
         align: 'center',
         fill: 'black',
@@ -77,6 +78,7 @@ export default class SpaceUFO {
         char: char,
         clicked: false,
         pixiText: pixiText,
+        UFO: this,
       }
     });
 
@@ -117,14 +119,14 @@ export default class SpaceUFO {
   }
 
   getFreeTextChar(char) {
-    return this.textChars.find(textChar => textChar.char === char && !textChar.checked);
+    return this.spaceUFOTextChars.find(spaceUFOTextChar => spaceUFOTextChar.char === char && !spaceUFOTextChar.checked);
   }
 
-  /** @param { TextChar } textChar */
-  checkTextChar(textChar) {
-    if (textChar.checked) return;
+  /** @param { SpaceUFOTextChar } spaceUFOTextChar */
+  checkTextChar(spaceUFOTextChar) {
+    if (spaceUFOTextChar.checked) return;
 
-    textChar.checked = true;
-    textChar.pixiText.style.fill = 0xBBBBBB;
+    spaceUFOTextChar.checked = true;
+    spaceUFOTextChar.pixiText.style.fill = 0xBBBBBB;
   }
 }

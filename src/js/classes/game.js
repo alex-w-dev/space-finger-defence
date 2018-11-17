@@ -97,8 +97,9 @@ export default class Game {
     const UFO = this.level.UFOs.find(UFO => !!UFO.getFreeTextChar(char));
 
     if (UFO) {
-      this.spaceShip.addUFO(UFO);
-      UFO.checkTextChar(UFO.getFreeTextChar(char));
+      const freeTextChar = UFO.getFreeTextChar(char);
+      this.spaceShip.addTextChar(freeTextChar);
+      UFO.checkTextChar(freeTextChar);
     }
   }
 }

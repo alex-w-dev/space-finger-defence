@@ -9,18 +9,18 @@ export default class Laser {
   pixiApp;
   /** @type PIXI.Sprite */
   sprite;
-  /** @type SpaceUFO */
-  UFO;
+  /** @type SpaceUFOTextChar */
+  spaceUFOTextChar;
 
   /** @type PIXI.Texture */
   textureFly;
   /** @type PIXI.Texture */
   textureShot;
 
-  constructor(game, point, UFO) {
+  constructor(game, point, spaceUFOTextChar) {
     this.game = game;
     this.pixiApp = game.pixiApp;
-    this.UFO = UFO;
+    this.spaceUFOTextChar = spaceUFOTextChar;
 
     this.textureFly = PIXI.Texture.fromImage('../../img/spaceArt/png/laserRed.png');
     this.textureShot = PIXI.Texture.fromImage('../../img/spaceArt/png/laserRedShot.png');
@@ -40,15 +40,15 @@ export default class Laser {
       return;
     }
 
-    if (this.UFO.destroyed) {
+    if (this.spaceUFOTextChar.UFO.destroyed) {
       this.destroy();
       return;
     }
 
     this.sprite.y -= (Laser.SPEED * delta);
 
-    if (Math.abs(this.sprite.y - this.UFO.container.y) < 10) {
-      this.UFO.takeDamage();
+    if (Math.abs(this.sprite.y - this.spaceUFOTextChar.UFO.container.y) < 10) {
+      this.spaceUFOTextChar.UFO.takeDamage();
       this.destroy();
     }
   };
