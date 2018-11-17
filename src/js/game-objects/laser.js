@@ -48,7 +48,7 @@ export default class Laser {
     this.sprite.y -= (Laser.SPEED * delta);
 
     if (Math.abs(this.sprite.y - this.spaceUFOTextChar.UFO.container.y) < 10) {
-      this.spaceUFOTextChar.UFO.takeDamage();
+      this.spaceUFOTextChar.UFO.takeDamage(this);
       this.destroy();
     }
   };

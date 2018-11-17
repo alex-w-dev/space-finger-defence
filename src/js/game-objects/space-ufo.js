@@ -3,7 +3,8 @@ import * as PIXI from 'pixi.js';
 /**
  * @typedef { Object } SpaceUFOTextChar
  * @property { string } char
- * @property { boolean } checked
+ * @property { boolean } marked
+ * @property { boolean } caught
  * @property { PIXI.Text } pixiText
  * @property { SpaceUFO } UFO
  * */
@@ -92,8 +93,12 @@ export default class SpaceUFO {
     this.pixiApp.ticker.add(this.tick);
   }
 
-  takeDamage() {
-    this.destroy();
+  /** @param { Laser } laser*/
+  takeDamage(laser) {
+    laser.spaceUFOTextChar.caught = true;
+    if (this.spaceUFOTextChars.every((spaceUFOTextChar) => spaceUFOTextChar.caught)) {
+      this.destroy();
+    }
   }
 
   tick = (delta) => {
@@ -119,14 +124,14 @@ export default class SpaceUFO {
   }
 
   getFreeTextChar(char) {
-    return this.spaceUFOTextChars.find(spaceUFOTextChar => spaceUFOTextChar.char === char && !spaceUFOTextChar.checked);
+    return this.spaceUFOTextChars.find(spaceUFOTextChar => spaceUFOTextChar.char === char && !spaceUFOTextChar.marked);
   }
 
   /** @param { SpaceUFOTextChar } spaceUFOTextChar */
-  checkTextChar(spaceUFOTextChar) {
-    if (spaceUFOTextChar.checked) return;
+  markTextChar(spaceUFOTextChar) {
+    if (spaceUFOTextChar.marked) return;
 
-    spaceUFOTextChar.checked = true;
-    spaceUFOTextChar.pixiText.style.fill = 0xBBBBBB;
+    spaceUFOTextChar.marked = true;
+    spaceUFOTextChar.pixiText.style.fill = 0xbbbbbb;
   }
 }

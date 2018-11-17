@@ -99,7 +99,7 @@ export default class Game {
     if (UFO) {
       const freeTextChar = UFO.getFreeTextChar(char);
       this.spaceShip.addTextChar(freeTextChar);
-      UFO.checkTextChar(freeTextChar);
+      UFO.markTextChar(freeTextChar);
     }
   }
 }
