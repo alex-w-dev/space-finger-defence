@@ -9,7 +9,7 @@ export default class Laser {
   pixiApp;
   /** @type PIXI.Sprite */
   sprite;
-  /** @type UFO */
+  /** @type SpaceUFO */
   UFO;
 
   /** @type PIXI.Texture */
@@ -39,6 +39,12 @@ export default class Laser {
     if (this.game.pause) {
       return;
     }
+
+    if (this.UFO.destroyed) {
+      this.destroy();
+      return;
+    }
+
     this.sprite.y -= (Laser.SPEED * delta);
 
     if (Math.abs(this.sprite.y - this.UFO.container.y) < 10) {

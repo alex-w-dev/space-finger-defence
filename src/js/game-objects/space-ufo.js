@@ -26,6 +26,8 @@ export default class SpaceUFO {
   game;
   /** @type PIXI.Application */
   pixiApp;
+  /** @type boolean */
+  destroyed;
 
   static getSizeFromCharset(charset) {
     const width = charset.length * SpaceUFO.CHAR_WIDTH; // 9.8 * 4 ,
@@ -110,6 +112,7 @@ export default class SpaceUFO {
     this.sprite.destroy();
     this.container.destroy();
 
+    this.destroyed = true;
     this.game.events.onUFODestroyed.next(this);
   }
 
