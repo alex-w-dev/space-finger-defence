@@ -109,6 +109,8 @@ export default class SpaceUFO {
 
     this.sprite.destroy();
     this.container.destroy();
+
+    this.game.events.onUFODestroyed.next(this);
   }
 
   getFreeTextChar(char) {

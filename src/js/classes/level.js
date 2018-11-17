@@ -25,6 +25,14 @@ export default class Level {
     this.pixiApp = game.pixiApp;
 
     this.number = 0 ;
+
+    this.game.events.onUFODestroyed.subscribe((UFO) => {
+      this.UFOs.splice(this.UFOs.indexOf(UFO), 1);
+
+      if (!this.UFOs.length) {
+        this.game.events.onAllLevelUFODestroyed.next();
+      }
+    });
   }
 
   nextLevel() {
