@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 
 /**
  * @typedef { Object } TextChar
- * @property { string } value
+ * @property { string } char
  * @property { boolean } checked
  * @property { PIXI.Text } pixiText
  * */
@@ -72,7 +72,7 @@ export default class SpaceUFO {
 
       this.textContainer.addChild(pixiText);
       return {
-        value: char,
+        char: char,
         clicked: false,
         pixiText: pixiText,
       }
@@ -112,12 +112,14 @@ export default class SpaceUFO {
   }
 
   getFreeTextChar(char) {
-    return this.textChars.find(textChar => textChar.value === char && !textChar.checked);
+    return this.textChars.find(textChar => textChar.char === char && !textChar.checked);
   }
 
+  /** @param { TextChar } textChar */
   checkTextChar(textChar) {
     if (textChar.checked) return;
 
     textChar.checked = true;
+    textChar.pixiText.style.fill = 0xBBBBBB;
   }
 }

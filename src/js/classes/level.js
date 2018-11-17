@@ -16,7 +16,7 @@ export default class Level {
   number;
   /** @type string[][] */
   charsets;
-  /** @type UFO[] */
+  /** @type SpaceUFO[] */
   UFOs;
 
 

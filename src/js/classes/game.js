@@ -66,10 +66,10 @@ export default class Game {
       this.setStarted(true);
       this.nextLevel();
     });
-    this.events.onShootCharClick.subscribe((key) => {
+    this.events.onShootCharClick.subscribe((char) => {
       if (!this.started || this.pause) return;
 
-      this.shootUFO(key)
+      this.shootUFO(char)
     });
   }
 
@@ -87,7 +87,12 @@ export default class Game {
     this.events.gameStarted.next(this.started);
   }
 
-  shootUFO(key) {
-    this.level.UFOs.find((UFO) => UFO.)
+  shootUFO(char) {
+    const UFO = this.level.UFOs.find(UFO => !!UFO.getFreeTextChar(char));
+
+    if (UFO) {
+      this.spaceShip.addUFO(UFO);
+      UFO.checkTextChar(UFO.getFreeTextChar(char));
+    }
   }
 }
