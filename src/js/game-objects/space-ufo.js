@@ -29,7 +29,7 @@ export default class SpaceUFO {
   /** @type PIXI.Application */
   pixiApp;
   /** @type boolean */
-  destroyed;
+  destroyedBySpaceShip;
 
   static getSizeFromCharset(charset) {
     const width = charset.length * SpaceUFO.CHAR_WIDTH; // 9.8 * 4 ,
@@ -97,7 +97,7 @@ export default class SpaceUFO {
   takeDamage(laser) {
     laser.spaceUFOTextChar.caught = true;
     if (this.spaceUFOTextChars.every((spaceUFOTextChar) => spaceUFOTextChar.caught)) {
-      this.destroy();
+      this.destroy(true);
     }
   }
 
@@ -112,14 +112,14 @@ export default class SpaceUFO {
     this.container.y += SpaceUFO.STEP_SIZE * delta;
   };
 
-  destroy() {
+  destroy(destroyedBySpaceShip = false) {
     this.pixiApp.ticker.remove(this.tick);
     this.game.worldContainer.removeChild(this.container);
 
     this.sprite.destroy();
     this.container.destroy();
 
-    this.destroyed = true;
+    this.destroyedBySpaceShip = destroyedBySpaceShip;
     this.game.events.onUFODestroyed.next(this);
   }
 

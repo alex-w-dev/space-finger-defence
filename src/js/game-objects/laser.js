@@ -40,7 +40,7 @@ export default class Laser {
       return;
     }
 
-    if (this.spaceUFOTextChar.UFO.destroyed) {
+    if (this.spaceUFOTextChar.UFO.destroyedBySpaceShip) {
       this.destroy();
       return;
     }

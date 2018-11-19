@@ -44,7 +44,7 @@ export default class Interface {
 
     this.startMenu.addChild(this.getGrayBG());
 
-    const button = new Button('Start', () => this.game.events.onGameStartClick.next(true));
+    const button = new Button('Start', () => this.game.events.onNewGameClick.next());
     button.y = this.game.interfaceContainer.height / 2;
     button.x = this.game.interfaceContainer.width / 2;
     this.startMenu.addChild(button);
@@ -67,13 +67,18 @@ export default class Interface {
     pauseText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseText);
 
-    const restartButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next());
-    restartButton.y = this.game.interfaceContainer.height / 2 - 60;
-    restartButton.x = this.game.interfaceContainer.width / 2;
-    this.pauseContainer.addChild(restartButton);
+    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next());
+    newGameButton.y = this.game.interfaceContainer.height / 2 - 60;
+    newGameButton.x = this.game.interfaceContainer.width / 2;
+    this.pauseContainer.addChild(newGameButton);
+
+    const restartLevelButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next());
+    restartLevelButton.y = this.game.interfaceContainer.height / 2;
+    restartLevelButton.x = this.game.interfaceContainer.width / 2;
+    this.pauseContainer.addChild(restartLevelButton);
 
     const continueButton = new Button('Continue', () => this.game.events.onPauseClick.next());
-    continueButton.y = this.game.interfaceContainer.height / 2;
+    continueButton.y = this.game.interfaceContainer.height / 2 + 60;
     continueButton.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(continueButton);
 
@@ -83,7 +88,7 @@ export default class Interface {
     }));
     pauseUnderText.pivot.y = pauseUnderText.height / 2;
     pauseUnderText.pivot.x = pauseUnderText.width / 2;
-    pauseUnderText.y = this.game.interfaceContainer.height / 2 + 60;
+    pauseUnderText.y = this.game.interfaceContainer.height / 2 + 110;
     pauseUnderText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseUnderText);
 
@@ -105,8 +110,13 @@ export default class Interface {
     gameOverText.x = this.game.interfaceContainer.width / 2;
     this.gameOverMenu.addChild(gameOverText);
 
+    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next());
+    newGameButton.y = this.game.interfaceContainer.height / 2 - 60;
+    newGameButton.x = this.game.interfaceContainer.width / 2;
+    this.gameOverMenu.addChild(newGameButton);
+
     const restartButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next());
-    restartButton.y = this.game.interfaceContainer.height / 2 - 60;
+    restartButton.y = this.game.interfaceContainer.height / 2;
     restartButton.x = this.game.interfaceContainer.width / 2;
     this.gameOverMenu.addChild(restartButton);
 

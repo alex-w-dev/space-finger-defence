@@ -3,17 +3,14 @@ import Game from "./game";
 
 export default class InputHandler {
   static spaceCode = 'Space';
-  static enterCode = 'Enter';
+  static escapeCode = 'Escape';
 
   /** @param { Game } game */
   constructor(game) {
     window.onkeydown = (e) => {
-      if (e.code === InputHandler.spaceCode) {
+      // console.log(e, 'e');
+      if (e.code === InputHandler.spaceCode || e.code === InputHandler.escapeCode) {
         return game.events.onPauseClick.next();
-      }
-
-      if (e.code === InputHandler.enterCode) {
-        return game.events.onGameStartClick.next();
       }
 
       if (Game.CHOOT_CHARS.includes(e.key.toLowerCase())) {

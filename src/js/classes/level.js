@@ -17,7 +17,7 @@ export default class Level {
   /** @type string[][] */
   charsets;
   /** @type SpaceUFO[] */
-  UFOs;
+  UFOs = [];
 
 
   constructor(game) {
@@ -44,12 +44,18 @@ export default class Level {
   }
 
   restartLevel() {
-    this.number--;
-    this.UFOs.forEach((UFO) => UFO.destroy());
+    this._levelUFOsDestroy();
+    this._initLevel(this.number);
+  }
+
+  newGame() {
+    this._levelUFOsDestroy();
+    this.number = 1;
+    this._initLevel(this.number);
   }
 
   isLevelCompleted() {
-    return !this.UFOs || !this.UFOs.length || this.UFOs.every(UFO => UFO.destroyed);
+    return !this.UFOs || !this.UFOs.length || this.UFOs.every(UFO => UFO.destroyedBySpaceShip);
   }
 
   _initLevel(levelNumber) {
@@ -92,5 +98,9 @@ export default class Level {
   _getRandomCharset(length) {
     const allCharsClone = _.shuffle([...Game.CHOOT_CHARS]);
     return allCharsClone.splice(0, length);
+  }
+
+  _levelUFOsDestroy() {
+    this.UFOs.forEach((UFO) => UFO.destroy(false));
   }
 }

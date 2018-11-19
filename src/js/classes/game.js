@@ -71,11 +71,8 @@ export default class Game {
 
       this.restartLevel();
     });
-    this.events.onGameStartClick.subscribe(() => {
-      if (this.started) return;
-
-      this.setStarted(true);
-      this.nextLevel();
+    this.events.onNewGameClick.subscribe(() => {
+      this.newGame();
     });
     this.events.onShootCharClick.subscribe((char) => {
       if (!this.started || this.pause || this.fail) return;
@@ -96,6 +93,13 @@ export default class Game {
 
   nextLevel() {
     this.level.nextLevel();
+  }
+
+  newGame() {
+    this.setStarted(true);
+    this.setPause(false);
+    this.setFail(false);
+    this.level.newGame();
   }
 
   restartLevel() {
