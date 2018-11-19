@@ -27,10 +27,8 @@ export default class Level {
     this.number = 0 ;
 
     this.game.events.onUFODestroyed.subscribe((UFO) => {
-      this.UFOs.splice(this.UFOs.indexOf(UFO), 1);
-
-      if (!this.UFOs.length) {
-        this.game.events.onAllLevelUFODestroyed.next();
+      if (this.isLevelCompleted()) {
+        this.game.events.onLevelCompleted.next();
       }
     });
   }
@@ -45,8 +43,13 @@ export default class Level {
     }
   }
 
+  restartLevel() {
+    this.number--;
+    this.UFOs.forEach((UFO) => UFO.destroy());
+  }
+
   isLevelCompleted() {
-    return !this.UFOs || !this.UFOs.length;
+    return !this.UFOs || !this.UFOs.length || this.UFOs.every(UFO => UFO.destroyed);
   }
 
   _initLevel(levelNumber) {

@@ -56,10 +56,20 @@ export default class Game {
     this.level = new Level(this);
     this.interface = new Interface(this);
 
-    this.events.onPauseClick.subscribe(() => {
+    this.events.onPauseClick.subscribe((pause) => {
       if (! this.started) return;
 
-      this.setPause(!this.pause);
+      if (pause !== undefined) {
+        this.setPause(pause);
+      } else {
+        this.setPause(!this.pause);
+      }
+    });
+
+    this.events.onRestartLevelClick.subscribe(() => {
+      if (! this.started) return;
+
+      this.restartLevel();
     });
     this.events.onGameStartClick.subscribe(() => {
       if (this.started) return;
@@ -72,7 +82,7 @@ export default class Game {
 
       this.shootUFO(char)
     });
-    this.events.onAllLevelUFODestroyed.subscribe(() => {
+    this.events.onLevelCompleted.subscribe(() => {
       if (!this.started) return;
 
       this.nextLevel();
@@ -81,6 +91,10 @@ export default class Game {
 
   nextLevel() {
     this.level.nextLevel();
+  }
+
+  restartLevel() {
+    this.level.restartLevel();
   }
 
   setPause(pause) {

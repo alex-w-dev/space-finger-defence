@@ -55,14 +55,22 @@ export default class Interface {
     }));
     pauseText.pivot.y = pauseText.height / 2;
     pauseText.pivot.x = pauseText.width / 2;
-    pauseText.y = this.game.interfaceContainer.height / 2 - 60;
+    pauseText.y = this.game.interfaceContainer.height / 2 - 120;
     pauseText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseText);
 
-    const button = new Button('Continue', () => this.game.events.onPauseClick.next(true));
-    button.y = this.game.interfaceContainer.height / 2;
-    button.x = this.game.interfaceContainer.width / 2;
-    this.pauseContainer.addChild(button);
+    const restartButton = new Button('Restart Level', () => {
+      this.game.events.onRestartLevelClick.next();
+      this.game.events.onPauseClick.next(false);
+    });
+    restartButton.y = this.game.interfaceContainer.height / 2 - 60;
+    restartButton.x = this.game.interfaceContainer.width / 2;
+    this.pauseContainer.addChild(restartButton);
+
+    const continueButton = new Button('Continue', () => this.game.events.onPauseClick.next());
+    continueButton.y = this.game.interfaceContainer.height / 2;
+    continueButton.x = this.game.interfaceContainer.width / 2;
+    this.pauseContainer.addChild(continueButton);
 
     const pauseUnderText = new PIXI.Text('... or press "Space" to continue', new PIXI.TextStyle({
       fill: 'white',
