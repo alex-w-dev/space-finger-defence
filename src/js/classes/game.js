@@ -78,7 +78,7 @@ export default class Game {
       this.nextLevel();
     });
     this.events.onShootCharClick.subscribe((char) => {
-      if (!this.started || this.pause) return;
+      if (!this.started || this.pause || this.fail) return;
 
       this.shootUFO(char)
     });
