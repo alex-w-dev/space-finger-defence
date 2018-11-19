@@ -2,6 +2,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 
 export default class Events {
   onPauseClick = new Subject();
+  onUFOTouchedSpaceShip = new Subject();
   onRestartLevelClick = new Subject();
   onGameStartClick = new Subject();
   /** @type Subject<string> */

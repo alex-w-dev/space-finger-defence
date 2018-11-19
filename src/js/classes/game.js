@@ -87,6 +87,11 @@ export default class Game {
 
       this.nextLevel();
     });
+    this.events.onUFOTouchedSpaceShip.subscribe(() => {
+      if (this.fail) return;
+
+      this.setFail(true);
+    });
   }
 
   nextLevel() {
@@ -94,6 +99,9 @@ export default class Game {
   }
 
   restartLevel() {
+    this.setPause(false);
+    this.setFail(false);
+
     this.level.restartLevel();
   }
 
@@ -115,5 +123,11 @@ export default class Game {
       this.spaceShip.addTextChar(freeTextChar);
       UFO.markTextChar(freeTextChar);
     }
+  }
+
+  setFail(fail) {
+    this.fail = fail;
+
+    this.events.gameFail.next(this.fail);
   }
 }

@@ -10,7 +10,7 @@ import * as PIXI from 'pixi.js';
  * */
 
 export default class SpaceUFO {
-  static STEP_SIZE = 0.1;
+  static STEP_SIZE = 1.1;
   static OFFSET = 10;
   static CHAR_HEIGHT = 20;
   static CHAR_WIDTH = 20;
@@ -106,7 +106,7 @@ export default class SpaceUFO {
       return;
     }
     if (this.container.y > this.game.worldContainer.height - 100) {
-      // TODO GamEOVER: FAIL
+      this.game.events.onUFOTouchedSpaceShip.next();
       return;
     }
     this.container.y += SpaceUFO.STEP_SIZE * delta;

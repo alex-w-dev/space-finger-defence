@@ -4,6 +4,8 @@ export default class Interface {
   /** @type PIXI.Sprite */
   pauseContainer;
   /** @type PIXI.Sprite */
+  gameOverMenu;
+  /** @type PIXI.Sprite */
   startMenu;
 
 
@@ -18,9 +20,11 @@ export default class Interface {
 
     this.generatePauseContainer();
     this.generateStartMenu();
+    this.generateGameOverMenu();
 
     this.game.events.gamePause.subscribe(this.onGamePauseChangeHandler);
     this.game.events.gameStarted.subscribe(this.onGameStartedChangeHandler);
+    this.game.events.gameFail.subscribe(this.onGameFailHandler);
   }
 
   onGamePauseChangeHandler = (gamePause) => {
@@ -29,6 +33,10 @@ export default class Interface {
 
   onGameStartedChangeHandler = (started) => {
     this.startMenu.visible = !started;
+  };
+
+  onGameFailHandler = (fail) => {
+    this.gameOverMenu.visible = fail;
   };
 
   generateStartMenu() {
@@ -59,10 +67,7 @@ export default class Interface {
     pauseText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseText);
 
-    const restartButton = new Button('Restart Level', () => {
-      this.game.events.onRestartLevelClick.next();
-      this.game.events.onPauseClick.next(false);
-    });
+    const restartButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next());
     restartButton.y = this.game.interfaceContainer.height / 2 - 60;
     restartButton.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(restartButton);
@@ -83,6 +88,29 @@ export default class Interface {
     this.pauseContainer.addChild(pauseUnderText);
 
     this.game.interfaceContainer.addChild(this.pauseContainer);
+  }
+
+  generateGameOverMenu() {
+    this.gameOverMenu = new PIXI.Container();
+
+    this.gameOverMenu.addChild(this.getGrayBG());
+
+    const gameOverText = new PIXI.Text('GAME OVER', new PIXI.TextStyle({
+      fill: 'white',
+      fontSize: 40,
+    }));
+    gameOverText.pivot.y = gameOverText.height / 2;
+    gameOverText.pivot.x = gameOverText.width / 2;
+    gameOverText.y = this.game.interfaceContainer.height / 2 - 120;
+    gameOverText.x = this.game.interfaceContainer.width / 2;
+    this.gameOverMenu.addChild(gameOverText);
+
+    const restartButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next());
+    restartButton.y = this.game.interfaceContainer.height / 2 - 60;
+    restartButton.x = this.game.interfaceContainer.width / 2;
+    this.gameOverMenu.addChild(restartButton);
+
+    this.game.interfaceContainer.addChild(this.gameOverMenu);
   }
 
   getGrayBG() {
