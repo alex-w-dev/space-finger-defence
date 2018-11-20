@@ -38,9 +38,13 @@ export default class Game {
   constructor(pixiApp) {
     this.pixiApp = pixiApp;
 
+    this.backgroundContainer = new PIXI.Container();
+    const worldBG = new PIXI.extras.TilingSprite(PIXI.Texture.fromImage('../../img/spaceArt/png/Background/starBackground.png'), 800, 600);
+    this.pixiApp.ticker.add(delta => worldBG.tilePosition.y += delta * .05);
+    this.backgroundContainer.addChild(worldBG);
     this.worldContainer = new PIXI.Container();
     this.interfaceContainer = new PIXI.Container();
-    for (let container of [this.worldContainer, this.interfaceContainer]) {
+    for (let container of [this.backgroundContainer, this.worldContainer, this.interfaceContainer]) {
       const emptyGraphic = new PIXI.Graphics();
       emptyGraphic.beginFill(0x000000, 0);
       emptyGraphic.drawRect(0, 0, this.pixiApp.screen.width, this.pixiApp.screen.height);
@@ -57,7 +61,7 @@ export default class Game {
     this.interface = new Interface(this);
 
     this.events.onPauseClick.subscribe((pause) => {
-      if (! this.started) return;
+      if (!this.started || this.fail || this.win) return;
 
       if (pause !== undefined) {
         this.setPause(pause);
