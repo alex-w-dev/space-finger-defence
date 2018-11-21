@@ -4,7 +4,10 @@ export default class Events {
   onPauseClick = new Subject();
   onNewGameClick = new Subject();
   onUFOTouchedSpaceShip = new Subject();
+  onMainMenuClick = new Subject();
   onRestartLevelClick = new Subject();
+  /** @type Subject<number> */
+  onSelectDifficultyClick = new Subject();
   /** @type Subject<string> */
   onShootCharClick = new Subject();
   /** @type Subject<SpaceUFO> */
@@ -20,6 +23,8 @@ export default class Events {
   gameFail;
   /** @type BehaviorSubject<Game.win> */
   gameWin;
+  /** @type BehaviorSubject<Game.choosingDifficulty> */
+  gameChoosingDifficulty;
 
   /** @param { Game } game */
   constructor(game) {
@@ -27,5 +32,6 @@ export default class Events {
     this.gamePause = new BehaviorSubject(game.pause);
     this.gameFail = new BehaviorSubject(game.fail);
     this.gameWin = new BehaviorSubject(game.win);
+    this.gameChoosingDifficulty = new BehaviorSubject(game.choosingDifficulty);
   }
 }

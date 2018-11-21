@@ -3,12 +3,19 @@ import SpaceUFO from "../game-objects/space-ufo";
 import Game from "./game";
 
 export default class Level {
+  static DIFFICULTY_OF_GAME = {
+    EASY: 1,
+    NORMAL: 2,
+    HARD: 3,
+  };
   static MAX_CHARSET_LENGTH = 5;
   static UFO_GRID_OFFSET = 50;
   static UFO_GRID_INITIAL_BOTTOM = 100;
   static UFO_OFFSET = 10;
   static MAX_LEVEL = 7;
 
+  /** @type number */
+  difficulty = Level.DIFFICULTY_OF_GAME.EASY;
   /** @type Game */
   game;
   /** @type PIXI.Application */
@@ -46,12 +53,12 @@ export default class Level {
   }
 
   restartLevel() {
-    this._levelUFOsDestroy();
+    this.levelAllUFOsDestroy();
     this._initLevel(this.number);
   }
 
   newGame() {
-    this._levelUFOsDestroy();
+    this.levelAllUFOsDestroy();
     this.number = 1;
     this._initLevel(this.number);
   }
@@ -64,7 +71,7 @@ export default class Level {
     this.number = levelNumber;
 
     this.UFOs = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 7 * this.difficulty; i++) {
       this.UFOs.push(new SpaceUFO(this.game, this._getRandomCharset()));
     }
 
@@ -104,7 +111,7 @@ export default class Level {
     return allCharsClone.splice(0, length);
   }
 
-  _levelUFOsDestroy() {
+  levelAllUFOsDestroy() {
     this.UFOs.forEach((UFO) => UFO.destroy(false));
   }
 }

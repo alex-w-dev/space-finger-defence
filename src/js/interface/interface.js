@@ -1,4 +1,5 @@
 import Button from "./button";
+import Level from "../classes/level";
 
 export default class Interface {
   /** @type PIXI.Sprite */
@@ -21,10 +22,12 @@ export default class Interface {
     this.generatePauseContainer();
     this.generateStartMenu();
     this.generateGameOverMenu();
+    this.generateDifficultyMenu();
 
     this.game.events.gamePause.subscribe(this.onGamePauseChangeHandler);
     this.game.events.gameStarted.subscribe(this.onGameStartedChangeHandler);
     this.game.events.gameFail.subscribe(this.onGameFailHandler);
+    this.game.events.gameChoosingDifficulty.subscribe(this.onGameChoosingDifficultyHandler);
   }
 
   onGamePauseChangeHandler = (gamePause) => {
@@ -37,6 +40,10 @@ export default class Interface {
 
   onGameFailHandler = (fail) => {
     this.gameOverMenu.visible = fail;
+  };
+
+  onGameChoosingDifficultyHandler = (choosingDifficulty) => {
+    this.gameDifficultyMenu.visible = choosingDifficulty;
   };
 
   generateStartMenu() {
@@ -121,6 +128,44 @@ export default class Interface {
     this.gameOverMenu.addChild(restartButton);
 
     this.game.interfaceContainer.addChild(this.gameOverMenu);
+  }
+
+  generateDifficultyMenu() {
+    this.gameDifficultyMenu = new PIXI.Container();
+
+    this.gameDifficultyMenu.addChild(this.getGrayBG());
+
+    const gameOverText = new PIXI.Text('Select Difficulty of Game', new PIXI.TextStyle({
+      fill: 'white',
+      fontSize: 40,
+    }));
+    gameOverText.pivot.y = gameOverText.height / 2;
+    gameOverText.pivot.x = gameOverText.width / 2;
+    gameOverText.y = this.game.interfaceContainer.height / 2 - 180;
+    gameOverText.x = this.game.interfaceContainer.width / 2;
+    this.gameDifficultyMenu.addChild(gameOverText);
+
+    const easyButton = new Button('Easy', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.EASY));
+    easyButton.y = this.game.interfaceContainer.height / 2 - 120;
+    easyButton.x = this.game.interfaceContainer.width / 2;
+    this.gameDifficultyMenu.addChild(easyButton);
+
+    const normalButton = new Button('Normal', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.NORMAL));
+    normalButton.y = this.game.interfaceContainer.height / 2 - 60;
+    normalButton.x = this.game.interfaceContainer.width / 2;
+    this.gameDifficultyMenu.addChild(normalButton);
+
+    const hardButton = new Button('Hard', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.HARD));
+    hardButton.y = this.game.interfaceContainer.height / 2;
+    hardButton.x = this.game.interfaceContainer.width / 2;
+    this.gameDifficultyMenu.addChild(hardButton);
+
+    const mainMenuButton = new Button('Main Menu', () => this.game.events.onMainMenuClick.next());
+    mainMenuButton.y = this.game.interfaceContainer.height / 2  + 60;
+    mainMenuButton.x = this.game.interfaceContainer.width / 2;
+    this.gameDifficultyMenu.addChild(mainMenuButton);
+
+    this.game.interfaceContainer.addChild(this.gameDifficultyMenu);
   }
 
   getGrayBG() {

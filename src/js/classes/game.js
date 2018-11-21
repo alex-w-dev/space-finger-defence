@@ -29,6 +29,8 @@ export default class Game {
   /** @type boolean */
   started = false;
   /** @type boolean */
+  choosingDifficulty = false;
+  /** @type boolean */
   pause = false;
   /** @type boolean */
   fail = false;
@@ -76,7 +78,20 @@ export default class Game {
       this.restartLevel();
     });
     this.events.onNewGameClick.subscribe(() => {
+      this.setChoosingDifficulty(true);
+    });
+    this.events.onSelectDifficultyClick.subscribe((difficulty) => {
+      this.setChoosingDifficulty(false);
+      this.level.difficulty = difficulty;
       this.newGame();
+    });
+    this.events.onMainMenuClick.subscribe(() => {
+      this.level.levelAllUFOsDestroy();
+      this.setStarted(false);
+      this.setChoosingDifficulty(false);
+      this.setFail(false);
+      this.setPause(false);
+      this.setWin(false);
     });
     this.events.onShootCharClick.subscribe((char) => {
       if (!this.started || this.pause || this.fail) return;
@@ -118,9 +133,19 @@ export default class Game {
     this.events.gamePause.next(this.pause);
   }
 
+  setChoosingDifficulty(choosingDifficulty) {
+    this.choosingDifficulty = choosingDifficulty;
+    this.events.gameChoosingDifficulty.next(this.choosingDifficulty);
+  }
+
   setStarted(started) {
     this.started = started;
     this.events.gameStarted.next(this.started);
+  }
+
+  setWin(win) {
+    this.win = win;
+    this.events.gameWin.next(this.win);
   }
 
   shootUFO(char) {
