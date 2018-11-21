@@ -4,6 +4,7 @@ export default class Events {
   onPauseClick = new Subject();
   onNewGameClick = new Subject();
   onUFOTouchedSpaceShip = new Subject();
+  onNoMoreLevels = new Subject();
   onMainMenuClick = new Subject();
   onRestartLevelClick = new Subject();
   /** @type Subject<number> */

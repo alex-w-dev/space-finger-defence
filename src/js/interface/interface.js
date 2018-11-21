@@ -7,6 +7,8 @@ export default class Interface {
   /** @type PIXI.Sprite */
   gameOverMenu;
   /** @type PIXI.Sprite */
+  gameWinMenu;
+  /** @type PIXI.Sprite */
   startMenu;
 
 
@@ -23,10 +25,12 @@ export default class Interface {
     this.generateStartMenu();
     this.generateGameOverMenu();
     this.generateDifficultyMenu();
+    this.generateGameWinMenu();
 
     this.game.events.gamePause.subscribe(this.onGamePauseChangeHandler);
     this.game.events.gameStarted.subscribe(this.onGameStartedChangeHandler);
     this.game.events.gameFail.subscribe(this.onGameFailHandler);
+    this.game.events.gameWin.subscribe(this.onGameWinHandler);
     this.game.events.gameChoosingDifficulty.subscribe(this.onGameChoosingDifficultyHandler);
   }
 
@@ -40,6 +44,10 @@ export default class Interface {
 
   onGameFailHandler = (fail) => {
     this.gameOverMenu.visible = fail;
+  };
+
+  onGameWinHandler = (win) => {
+    this.gameWinMenu.visible = win;
   };
 
   onGameChoosingDifficultyHandler = (choosingDifficulty) => {
@@ -128,6 +136,39 @@ export default class Interface {
     this.gameOverMenu.addChild(restartButton);
 
     this.game.interfaceContainer.addChild(this.gameOverMenu);
+  }
+
+  generateGameWinMenu() {
+    this.gameWinMenu = new PIXI.Container();
+
+    this.gameWinMenu.addChild(this.getGrayBG());
+
+    const congratulationText = new PIXI.Text('!!! CONGRATULATION !!!', new PIXI.TextStyle({
+      fill: 'white',
+      fontSize: 40,
+    }));
+    congratulationText.pivot.y = congratulationText.height / 2;
+    congratulationText.pivot.x = congratulationText.width / 2;
+    congratulationText.y = this.game.interfaceContainer.height / 2 - 120;
+    congratulationText.x = this.game.interfaceContainer.width / 2;
+    this.gameWinMenu.addChild(congratulationText);
+
+    const youWinText = new PIXI.Text('You Win.', new PIXI.TextStyle({
+      fill: 'white',
+      fontSize: 40,
+    }));
+    youWinText.pivot.y = youWinText.height / 2;
+    youWinText.pivot.x = youWinText.width / 2;
+    youWinText.y = this.game.interfaceContainer.height / 2 - 60;
+    youWinText.x = this.game.interfaceContainer.width / 2;
+    this.gameWinMenu.addChild(youWinText);
+
+    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next());
+    newGameButton.y = this.game.interfaceContainer.height / 2;
+    newGameButton.x = this.game.interfaceContainer.width / 2;
+    this.gameWinMenu.addChild(newGameButton);
+
+    this.game.interfaceContainer.addChild(this.gameWinMenu);
   }
 
   generateDifficultyMenu() {

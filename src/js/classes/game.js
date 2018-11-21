@@ -81,6 +81,7 @@ export default class Game {
       this.setChoosingDifficulty(true);
       this.setPause(false);
       this.setFail(false);
+      this.setWin(false);
     });
     this.events.onSelectDifficultyClick.subscribe((difficulty) => {
       this.setChoosingDifficulty(false);
@@ -106,9 +107,14 @@ export default class Game {
       this.nextLevel();
     });
     this.events.onUFOTouchedSpaceShip.subscribe(() => {
-      if (this.fail) return;
+      if (this.fail || this.win) return;
 
       this.setFail(true);
+    });
+    this.events.onNoMoreLevels.subscribe(() => {
+      if (this.win || this.fail) return;
+
+      this.setWin(true);
     });
   }
 

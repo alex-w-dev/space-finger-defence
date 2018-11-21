@@ -12,7 +12,7 @@ export default class Level {
   static UFO_GRID_OFFSET = 50;
   static UFO_GRID_INITIAL_BOTTOM = 100;
   static UFO_OFFSET = 10;
-  static MAX_LEVEL = 7;
+  static MAX_LEVEL = 3;
 
   /** @type number */
   difficulty = Level.DIFFICULTY_OF_GAME.EASY;
@@ -42,8 +42,7 @@ export default class Level {
   nextLevel() {
     if (this.isLevelCompleted()) {
       if (this.number === Level.MAX_LEVEL) {
-        // TODO game over: WIN
-        alert('WIN');
+        this.game.events.onNoMoreLevels.next();
 
         return;
       }
