@@ -80,6 +80,7 @@ export default class Game {
     });
     this.events.onNewGameClick.subscribe(() => {
       this.setChoosingDifficulty(true);
+      this.setStarted(true);
       this.setPause(false);
       this.setFail(false);
       this.setWin(false);

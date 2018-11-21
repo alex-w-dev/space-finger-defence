@@ -57,7 +57,7 @@ export default class Interface {
   generateStartMenu() {
     this.startMenu = new PIXI.Container();
 
-    this.startMenu.addChild(this.getGrayBG());
+    this.startMenu.addChild(this._getGrayBG());
 
     const button = new Button('Start', () => this.game.events.onNewGameClick.next());
     button.y = this.game.interfaceContainer.height / 2;
@@ -70,16 +70,10 @@ export default class Interface {
   generatePauseContainer() {
     this.pauseContainer = new PIXI.Container();
 
-    this.pauseContainer.addChild(this.getGrayBG());
+    this.pauseContainer.addChild(this._getGrayBG());
 
-    const pauseText = new PIXI.Text('PAUSE', new PIXI.TextStyle({
-      fill: 'white',
-      fontSize: 40,
-    }));
-    pauseText.pivot.y = pauseText.height / 2;
-    pauseText.pivot.x = pauseText.width / 2;
+    const pauseText = this._getText('PAUSE', 40);
     pauseText.y = this.game.interfaceContainer.height / 2 - 120;
-    pauseText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseText);
 
     const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next());
@@ -97,14 +91,8 @@ export default class Interface {
     continueButton.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(continueButton);
 
-    const pauseUnderText = new PIXI.Text('... or press "Space" to continue', new PIXI.TextStyle({
-      fill: 'white',
-      fontSize: 25,
-    }));
-    pauseUnderText.pivot.y = pauseUnderText.height / 2;
-    pauseUnderText.pivot.x = pauseUnderText.width / 2;
+    const pauseUnderText = this._getText('... or press "Space"');
     pauseUnderText.y = this.game.interfaceContainer.height / 2 + 110;
-    pauseUnderText.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(pauseUnderText);
 
     this.game.interfaceContainer.addChild(this.pauseContainer);
@@ -113,14 +101,9 @@ export default class Interface {
   generateGameOverMenu() {
     this.gameOverMenu = new PIXI.Container();
 
-    this.gameOverMenu.addChild(this.getGrayBG());
+    this.gameOverMenu.addChild(this._getGrayBG());
 
-    const gameOverText = new PIXI.Text('GAME OVER', new PIXI.TextStyle({
-      fill: 'white',
-      fontSize: 40,
-    }));
-    gameOverText.pivot.y = gameOverText.height / 2;
-    gameOverText.pivot.x = gameOverText.width / 2;
+    const gameOverText = this._getText('GAME OVER', 40);
     gameOverText.y = this.game.interfaceContainer.height / 2 - 120;
     gameOverText.x = this.game.interfaceContainer.width / 2;
     this.gameOverMenu.addChild(gameOverText);
@@ -141,26 +124,14 @@ export default class Interface {
   generateGameWinMenu() {
     this.gameWinMenu = new PIXI.Container();
 
-    this.gameWinMenu.addChild(this.getGrayBG());
+    this.gameWinMenu.addChild(this._getGrayBG());
 
-    const congratulationText = new PIXI.Text('!!! CONGRATULATION !!!', new PIXI.TextStyle({
-      fill: 'white',
-      fontSize: 40,
-    }));
-    congratulationText.pivot.y = congratulationText.height / 2;
-    congratulationText.pivot.x = congratulationText.width / 2;
+    const congratulationText = this._getText('!!! CONGRATULATION !!!', 40);
     congratulationText.y = this.game.interfaceContainer.height / 2 - 120;
-    congratulationText.x = this.game.interfaceContainer.width / 2;
     this.gameWinMenu.addChild(congratulationText);
 
-    const youWinText = new PIXI.Text('You Win.', new PIXI.TextStyle({
-      fill: 'white',
-      fontSize: 40,
-    }));
-    youWinText.pivot.y = youWinText.height / 2;
-    youWinText.pivot.x = youWinText.width / 2;
+    const youWinText = this._getText('You Win.', 40);
     youWinText.y = this.game.interfaceContainer.height / 2 - 60;
-    youWinText.x = this.game.interfaceContainer.width / 2;
     this.gameWinMenu.addChild(youWinText);
 
     const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next());
@@ -174,16 +145,10 @@ export default class Interface {
   generateDifficultyMenu() {
     this.gameDifficultyMenu = new PIXI.Container();
 
-    this.gameDifficultyMenu.addChild(this.getGrayBG());
+    this.gameDifficultyMenu.addChild(this._getGrayBG());
 
-    const gameOverText = new PIXI.Text('Select Difficulty of Game', new PIXI.TextStyle({
-      fill: 'white',
-      fontSize: 40,
-    }));
-    gameOverText.pivot.y = gameOverText.height / 2;
-    gameOverText.pivot.x = gameOverText.width / 2;
+    const gameOverText = this._getText('Select Difficulty of Game', 40);
     gameOverText.y = this.game.interfaceContainer.height / 2 - 180;
-    gameOverText.x = this.game.interfaceContainer.width / 2;
     this.gameDifficultyMenu.addChild(gameOverText);
 
     const easyButton = new Button('Easy', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.EASY));
@@ -209,7 +174,19 @@ export default class Interface {
     this.game.interfaceContainer.addChild(this.gameDifficultyMenu);
   }
 
-  getGrayBG() {
+  _getText(text, fontSize = 25) {
+    const smallText = new PIXI.Text(text, new PIXI.TextStyle({
+      fill: 'white',
+      fontSize,
+    }));
+    smallText.pivot.y = smallText.height / 2;
+    smallText.pivot.x = smallText.width / 2;
+    smallText.y = this.game.interfaceContainer.height / 2;
+    smallText.x = this.game.interfaceContainer.width / 2;
+    return smallText;
+  }
+
+  _getGrayBG() {
     const background = new PIXI.Graphics();
     background.beginFill(0x000000, .5);
     background.drawRect(0, 0, this.game.interfaceContainer.width, this.game.interfaceContainer.height);

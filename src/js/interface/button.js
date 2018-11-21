@@ -55,14 +55,16 @@ export default class Button extends PIXI.Sprite {
   }
 
   onDown() {
-    this.y += 5;
+    this.scale.x = .95;
+    this.scale.y = .95;
   }
 
   onUp() {
     if(typeof(this._cb) === 'function') {
       this._cb();
     }
-    this.y -= 5;
+    this.scale.x = 1;
+    this.scale.y = 1;
   }
 
   onHover() {
