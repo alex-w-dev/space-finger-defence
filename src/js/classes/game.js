@@ -5,8 +5,8 @@ import InputHandler from "./input-handler";
 import Interface from "../interface/interface";
 
 export default class Game {
-  // static CHOOT_CHARS = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  static CHOOT_CHARS = 'aaaaaaa'.split('');
+  // static SHOOT_CHARS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  static SHOOT_CHARS = 'aaaaaaaaaaaa'.split('');
 
   /** @type PIXI.Application */
   pixiApp;

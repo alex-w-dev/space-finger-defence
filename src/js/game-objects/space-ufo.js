@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import Level from "../classes/level";
 
 /**
  * @typedef { Object } SpaceUFOTextChar
@@ -109,7 +110,7 @@ export default class SpaceUFO {
       this.game.events.onUFOTouchedSpaceShip.next();
       return;
     }
-    this.container.y += SpaceUFO.STEP_SIZE * delta;
+    this.container.y += (SpaceUFO.STEP_SIZE + (this.game.level.number / Level.MAX_LEVEL) / 2) * delta;
   };
 
   destroy(destroyedBySpaceShip = false) {

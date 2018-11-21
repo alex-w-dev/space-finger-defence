@@ -107,7 +107,7 @@ export default class Level {
     const middle = this.number / Level.MAX_LEVEL * Level.MAX_CHARSET_LENGTH;
     const length = _.random(Math.floor(middle) || 1, Math.ceil(middle));
 
-    const allCharsClone = _.shuffle([...Game.CHOOT_CHARS]);
+    const allCharsClone = _.shuffle([...Game.SHOOT_CHARS]);
     return allCharsClone.splice(0, length);
   }
 

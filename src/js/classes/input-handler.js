@@ -7,7 +7,7 @@ export default class InputHandler {
 
   /** @param { Game } game */
   constructor(game) {
-    const keyCodesToShootChar = Game.CHOOT_CHARS.map((char) => {
+    const keyCodesToShootChar = Game.SHOOT_CHARS.map((char) => {
       return {
         char,
         eventCode: `Key${char.toUpperCase()}`,
