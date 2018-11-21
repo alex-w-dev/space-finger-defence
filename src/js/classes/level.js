@@ -3,9 +3,10 @@ import SpaceUFO from "../game-objects/space-ufo";
 import Game from "./game";
 
 export default class Level {
-  static UFO_GRID_OFFSET = 100;
+  static MAX_CHARSET_LENGTH = 5;
+  static UFO_GRID_OFFSET = 50;
   static UFO_GRID_INITIAL_BOTTOM = 100;
-  static UFO_OFFSET = 50;
+  static UFO_OFFSET = 10;
   static MAX_LEVEL = 7;
 
   /** @type Game */
@@ -14,8 +15,6 @@ export default class Level {
   pixiApp;
 
   number;
-  /** @type string[][] */
-  charsets;
   /** @type SpaceUFO[] */
   UFOs = [];
 
@@ -37,6 +36,9 @@ export default class Level {
     if (this.isLevelCompleted()) {
       if (this.number === Level.MAX_LEVEL) {
         // TODO game over: WIN
+        alert('WIN');
+
+        return;
       }
 
       this._initLevel(++this.number);
@@ -61,11 +63,10 @@ export default class Level {
   _initLevel(levelNumber) {
     this.number = levelNumber;
 
-    this.charsets = Game.CHOOT_CHARS.map(() => this._getRandomCharset(levelNumber));
-
-    this.UFOs = this.charsets.map((charset, i, arr) => {
-      return new SpaceUFO(this.game, charset);
-    });
+    this.UFOs = [];
+    for (let i = 0; i < 7; i++) {
+      this.UFOs.push(new SpaceUFO(this.game, this._getRandomCharset()));
+    }
 
     {
       // update UFOs positions to set UFO's grid
@@ -95,7 +96,10 @@ export default class Level {
     }
   }
 
-  _getRandomCharset(length) {
+  _getRandomCharset() {
+    const middle = this.number / Level.MAX_LEVEL * Level.MAX_CHARSET_LENGTH;
+    const length = _.random(Math.floor(middle) || 1, Math.ceil(middle));
+
     const allCharsClone = _.shuffle([...Game.CHOOT_CHARS]);
     return allCharsClone.splice(0, length);
   }

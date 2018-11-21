@@ -10,7 +10,7 @@ import * as PIXI from 'pixi.js';
  * */
 
 export default class SpaceUFO {
-  static STEP_SIZE = 1.1;
+  static STEP_SIZE = .1;
   static OFFSET = 10;
   static CHAR_HEIGHT = 20;
   static CHAR_WIDTH = 20;
@@ -32,7 +32,8 @@ export default class SpaceUFO {
   destroyedBySpaceShip;
 
   static getSizeFromCharset(charset) {
-    const width = charset.length * SpaceUFO.CHAR_WIDTH; // 9.8 * 4 ,
+    // const width = charset.length * SpaceUFO.CHAR_WIDTH; // 9.8 * 4 ,
+    const width = SpaceUFO.ORIGINAL_SPRITE_WIDTH;
 
     const height = SpaceUFO.CHAR_HEIGHT + ((width / SpaceUFO.ORIGINAL_SPRITE_WIDTH) * SpaceUFO.ORIGINAL_SPRITE_HEIGHT);
     return {
@@ -56,11 +57,10 @@ export default class SpaceUFO {
     this.UFOSprite.width = size.width;
     this.UFOSprite.height = size.height - SpaceUFO.CHAR_HEIGHT;
 
-
     this.textContainer = new PIXI.Container();
     this.textContainer.x = this.textContainer.y = 0;
     this.textContainer.width = size.width;
-    this.textContainer.height = 20;
+    this.textContainer.height = SpaceUFO.CHAR_HEIGHT;
 
     this.spaceUFOTextChars = charset.map((char, i) => {
       const textStyle = new PIXI.TextStyle({

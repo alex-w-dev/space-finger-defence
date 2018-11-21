@@ -6,7 +6,7 @@ import Interface from "../interface/interface";
 
 export default class Game {
   // static CHOOT_CHARS = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  static CHOOT_CHARS = 'aaaaa'.split('');
+  static CHOOT_CHARS = 'aaaaaaa'.split('');
 
   /** @type PIXI.Application */
   pixiApp;
