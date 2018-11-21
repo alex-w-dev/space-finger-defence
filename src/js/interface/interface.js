@@ -10,6 +10,12 @@ export default class Interface {
   gameWinMenu;
   /** @type PIXI.Sprite */
   startMenu;
+  /** @type PIXI.Sprite */
+  levelWaitingContainer;
+  /** @type PIXI.Text */
+  levelWaitingWaveText;
+  /** @type PIXI.Text */
+  levelWaitingTimeLeft;
 
 
   /** @type Game */
@@ -26,12 +32,14 @@ export default class Interface {
     this.generateGameOverMenu();
     this.generateDifficultyMenu();
     this.generateGameWinMenu();
+    this.generateLevelWaitingContainer();
 
     this.game.pause.subscribe(this.onGamePauseHandler);
     this.game.started.subscribe(this.onGameStartedHandler);
     this.game.fail.subscribe(this.onGameFailHandler);
     this.game.win.subscribe(this.onGameWinHandler);
     this.game.choosingDifficulty.subscribe(this.onGameChoosingDifficultyHandler);
+    this.game.levelWaiting.subscribe(this.onGameLevelWaitingHandler);
   }
 
   onGamePauseHandler = (gamePause) => {
@@ -54,6 +62,17 @@ export default class Interface {
     this.gameDifficultyMenu.visible = choosingDifficulty;
   };
 
+  onGameLevelWaitingHandler = (levelWaiting) => {
+    if (levelWaiting !== 0) {
+      this.levelWaitingContainer.visible = true;
+
+      this.levelWaitingTimeLeft.setText(`${levelWaiting}...`);
+      this.levelWaitingWaveText.setText((this.game.level.number === Level.MAX_LEVEL)? 'FINAL WAVE': `WAVE ${this.game.level.number}`);
+    } else {
+      this.levelWaitingContainer.visible = false;
+    }
+  };
+
   generateStartMenu() {
     this.startMenu = new PIXI.Container();
 
@@ -65,6 +84,22 @@ export default class Interface {
     this.startMenu.addChild(button);
 
     this.game.interfaceContainer.addChild(this.startMenu);
+  }
+
+  generateLevelWaitingContainer() {
+    this.levelWaitingContainer = new PIXI.Container();
+
+    this.levelWaitingContainer.addChild(this._getGrayBG());
+
+    this.levelWaitingWaveText = this._getText('Wave N', 40);
+    this.levelWaitingWaveText.y = this.game.interfaceContainer.height / 2 - 60;
+    this.levelWaitingContainer.addChild(this.levelWaitingWaveText);
+
+    this.levelWaitingTimeLeft = this._getText('N ...');
+    this.levelWaitingTimeLeft.y = this.game.interfaceContainer.height / 2;
+    this.levelWaitingContainer.addChild(this.levelWaitingTimeLeft);
+
+    this.game.interfaceContainer.addChild(this.levelWaitingContainer);
   }
 
   generatePauseContainer() {

@@ -125,8 +125,8 @@ export default class Game {
   }
 
   nextLevel() {
-    this._startLevelWaiting();
     this.level.nextLevel();
+    this._startLevelWaiting();
   }
 
   newGame() {
@@ -134,16 +134,16 @@ export default class Game {
     this.setPause(false);
     this.setFail(false);
 
-    this._startLevelWaiting();
     this.level.newGame();
+    this._startLevelWaiting();
   }
 
   restartLevel() {
     this.setPause(false);
     this.setFail(false);
 
-    this._startLevelWaiting();
     this.level.restartLevel();
+    this._startLevelWaiting();
   }
 
   setPause(pause) {
@@ -185,6 +185,8 @@ export default class Game {
   }
 
   _startLevelWaiting() {
+    if (this.win.getValue() || this.fail.getValue()) return;
+
     this._stopLevelWaiting();
 
     let secondsLeft = 5;
