@@ -3,6 +3,7 @@ import Level from "./level";
 import SpaceShip from "../game-objects/space-ship";
 import InputHandler from "./input-handler";
 import Interface from "../interface/interface";
+import {BehaviorSubject} from "rxjs/index";
 
 export default class Game {
   // static SHOOT_CHARS = 'abcdefghijklmnopqrstuvwxyz'.split('');
@@ -26,16 +27,16 @@ export default class Game {
   /** @type PIXI.Container */
   interfaceContainer;
 
-  /** @type boolean */
-  started = false;
-  /** @type boolean */
-  choosingDifficulty = false;
-  /** @type boolean */
-  pause = false;
-  /** @type boolean */
-  fail = false;
-  /** @type boolean */
-  win = false;
+  /** @type BehaviorSubject<boolean> */
+  started = new BehaviorSubject(false);
+  /** @type BehaviorSubject<boolean> */
+  choosingDifficulty = new BehaviorSubject(false);
+  /** @type BehaviorSubject<boolean> */
+  pause = new BehaviorSubject(false);
+  /** @type BehaviorSubject<boolean> */
+  fail = new BehaviorSubject(false);
+  /** @type BehaviorSubject<boolean> */
+  win = new BehaviorSubject(false);
 
   constructor(pixiApp) {
     this.pixiApp = pixiApp;
@@ -63,17 +64,17 @@ export default class Game {
     this.interface = new Interface(this);
 
     this.events.onPauseClick.subscribe((pause) => {
-      if (!this.started || this.fail || this.win || this.choosingDifficulty) return;
+      if (!this.started.getValue() || this.fail.getValue() || this.win.getValue() || this.choosingDifficulty.getValue()) return;
 
       if (pause !== undefined) {
         this.setPause(pause);
       } else {
-        this.setPause(!this.pause);
+        this.setPause(!this.pause.getValue());
       }
     });
 
     this.events.onRestartLevelClick.subscribe(() => {
-      if (! this.started) return;
+      if (! this.started.getValue()) return;
 
       this.restartLevel();
     });
@@ -97,22 +98,22 @@ export default class Game {
       this.setWin(false);
     });
     this.events.onShootCharClick.subscribe((char) => {
-      if (!this.started || this.pause || this.fail) return;
+      if (!this.started.getValue() || this.pause.getValue() || this.fail.getValue()) return;
 
       this.shootUFO(char)
     });
     this.events.onLevelCompleted.subscribe(() => {
-      if (!this.started) return;
+      if (!this.started.getValue()) return;
 
       this.nextLevel();
     });
     this.events.onUFOTouchedSpaceShip.subscribe(() => {
-      if (this.fail || this.win) return;
+      if (this.fail.getValue() || this.win.getValue()) return;
 
       this.setFail(true);
     });
     this.events.onNoMoreLevels.subscribe(() => {
-      if (this.win || this.fail) return;
+      if (this.win.getValue() || this.fail.getValue()) return;
 
       this.setWin(true);
     });
@@ -137,23 +138,19 @@ export default class Game {
   }
 
   setPause(pause) {
-    this.pause = pause;
-    this.events.gamePause.next(this.pause);
+    this.pause.next(pause);
   }
 
   setChoosingDifficulty(choosingDifficulty) {
-    this.choosingDifficulty = choosingDifficulty;
-    this.events.gameChoosingDifficulty.next(this.choosingDifficulty);
+    this.choosingDifficulty.next(choosingDifficulty);
   }
 
   setStarted(started) {
-    this.started = started;
-    this.events.gameStarted.next(this.started);
+    this.started.next(started);
   }
 
   setWin(win) {
-    this.win = win;
-    this.events.gameWin.next(this.win);
+    this.win.next(win);
   }
 
   shootUFO(char) {
@@ -167,12 +164,10 @@ export default class Game {
   }
 
   setFail(fail) {
-    this.fail = fail;
-
-    this.events.gameFail.next(this.fail);
+    this.fail.next(fail);
   }
 
   isWorldFrozen() {
-    return this.pause || this.choosingDifficulty || !this.started;
+    return this.pause.getValue() || this.choosingDifficulty.getValue() || !this.started.getValue();
   }
 }

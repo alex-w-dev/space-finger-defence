@@ -27,18 +27,18 @@ export default class Interface {
     this.generateDifficultyMenu();
     this.generateGameWinMenu();
 
-    this.game.events.gamePause.subscribe(this.onGamePauseChangeHandler);
-    this.game.events.gameStarted.subscribe(this.onGameStartedChangeHandler);
-    this.game.events.gameFail.subscribe(this.onGameFailHandler);
-    this.game.events.gameWin.subscribe(this.onGameWinHandler);
-    this.game.events.gameChoosingDifficulty.subscribe(this.onGameChoosingDifficultyHandler);
+    this.game.pause.subscribe(this.onGamePauseHandler);
+    this.game.started.subscribe(this.onGameStartedHandler);
+    this.game.fail.subscribe(this.onGameFailHandler);
+    this.game.win.subscribe(this.onGameWinHandler);
+    this.game.choosingDifficulty.subscribe(this.onGameChoosingDifficultyHandler);
   }
 
-  onGamePauseChangeHandler = (gamePause) => {
+  onGamePauseHandler = (gamePause) => {
     this.pauseContainer.visible = gamePause;
   };
 
-  onGameStartedChangeHandler = (started) => {
+  onGameStartedHandler = (started) => {
     this.startMenu.visible = !started;
   };
 
