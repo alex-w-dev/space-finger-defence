@@ -103,7 +103,7 @@ export default class SpaceUFO {
   }
 
   tick = (delta) => {
-    if (this.game.pause) {
+    if (this.game.isWorldFrozen()) {
       return;
     }
     if (this.container.y > this.game.worldContainer.height - 100) {

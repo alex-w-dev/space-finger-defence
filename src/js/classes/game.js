@@ -63,7 +63,7 @@ export default class Game {
     this.interface = new Interface(this);
 
     this.events.onPauseClick.subscribe((pause) => {
-      if (!this.started || this.fail || this.win) return;
+      if (!this.started || this.fail || this.win || this.choosingDifficulty) return;
 
       if (pause !== undefined) {
         this.setPause(pause);
@@ -79,6 +79,8 @@ export default class Game {
     });
     this.events.onNewGameClick.subscribe(() => {
       this.setChoosingDifficulty(true);
+      this.setPause(false);
+      this.setFail(false);
     });
     this.events.onSelectDifficultyClick.subscribe((difficulty) => {
       this.setChoosingDifficulty(false);
@@ -162,5 +164,9 @@ export default class Game {
     this.fail = fail;
 
     this.events.gameFail.next(this.fail);
+  }
+
+  isWorldFrozen() {
+    return this.pause || this.choosingDifficulty || !this.started;
   }
 }

@@ -40,7 +40,7 @@ export default class SpaceShip {
   }
 
   tick = (deltaTime) => {
-    if (this.game.pause || !this.spaceUFOTextChars[0]) {
+    if (this.game.isWorldFrozen() || !this.spaceUFOTextChars[0]) {
       return;
     }
     const spaceUFOTextChar = this.spaceUFOTextChars[0];

@@ -36,7 +36,7 @@ export default class Laser {
   }
 
   tick = (delta) => {
-    if (this.game.pause) {
+    if (this.game.isWorldFrozen()) {
       return;
     }
 
