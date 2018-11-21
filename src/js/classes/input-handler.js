@@ -7,14 +7,22 @@ export default class InputHandler {
 
   /** @param { Game } game */
   constructor(game) {
+    const keyCodesToShootChar = Game.CHOOT_CHARS.map((char) => {
+      return {
+        char,
+        eventCode: `Key${char.toUpperCase()}`,
+      }
+    });
+
     window.onkeydown = (e) => {
       // console.log(e, 'e');
       if (e.code === InputHandler.spaceCode || e.code === InputHandler.escapeCode) {
         return game.events.onPauseClick.next();
       }
 
-      if (Game.CHOOT_CHARS.includes(e.key.toLowerCase())) {
-        return game.events.onShootCharClick.next(e.key.toLowerCase());
+      const keyToChar = keyCodesToShootChar.find(ktc => e.code === ktc.eventCode);
+      if (keyToChar) {
+        return game.events.onShootCharClick.next(keyToChar.char);
       }
     };
   }
