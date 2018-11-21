@@ -66,8 +66,8 @@ export default class Interface {
     if (levelWaiting !== 0) {
       this.levelWaitingContainer.visible = true;
 
-      this.levelWaitingTimeLeft.setText(`${levelWaiting}...`);
-      this.levelWaitingWaveText.setText((this.game.level.number === Level.MAX_LEVEL)? 'FINAL WAVE': `WAVE ${this.game.level.number}`);
+      this.levelWaitingTimeLeft.text = `${levelWaiting}...`;
+      this.levelWaitingWaveText.text = (this.game.level.number === Level.MAX_LEVEL)? 'FINAL WAVE': `WAVE ${this.game.level.number}`;
     } else {
       this.levelWaitingContainer.visible = false;
     }
