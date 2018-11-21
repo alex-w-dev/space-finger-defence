@@ -31,12 +31,16 @@ export default class Game {
   started = new BehaviorSubject(false);
   /** @type BehaviorSubject<boolean> */
   choosingDifficulty = new BehaviorSubject(false);
+  /** @type BehaviorSubject<number> */
+  levelWaiting = new BehaviorSubject(0);
   /** @type BehaviorSubject<boolean> */
   pause = new BehaviorSubject(false);
   /** @type BehaviorSubject<boolean> */
   fail = new BehaviorSubject(false);
   /** @type BehaviorSubject<boolean> */
   win = new BehaviorSubject(false);
+
+  levelWaitingInterval;
 
   constructor(pixiApp) {
     this.pixiApp = pixiApp;
@@ -99,7 +103,7 @@ export default class Game {
       this.setWin(false);
     });
     this.events.onShootCharClick.subscribe((char) => {
-      if (!this.started.getValue() || this.pause.getValue() || this.fail.getValue()) return;
+      if (this.isWorldFrozen()) return;
 
       this.shootUFO(char)
     });
@@ -121,6 +125,7 @@ export default class Game {
   }
 
   nextLevel() {
+    this._startLevelWaiting();
     this.level.nextLevel();
   }
 
@@ -128,6 +133,8 @@ export default class Game {
     this.setStarted(true);
     this.setPause(false);
     this.setFail(false);
+
+    this._startLevelWaiting();
     this.level.newGame();
   }
 
@@ -135,6 +142,7 @@ export default class Game {
     this.setPause(false);
     this.setFail(false);
 
+    this._startLevelWaiting();
     this.level.restartLevel();
   }
 
@@ -154,6 +162,10 @@ export default class Game {
     this.win.next(win);
   }
 
+  setLevelWaiting(levelWaiting) {
+    this.levelWaiting.next(levelWaiting);
+  }
+
   shootUFO(char) {
     const UFO = this.level.UFOs.find(UFO => !!UFO.getFreeTextChar(char));
 
@@ -169,6 +181,25 @@ export default class Game {
   }
 
   isWorldFrozen() {
-    return this.pause.getValue() || this.choosingDifficulty.getValue() || !this.started.getValue();
+    return this.pause.getValue() || this.choosingDifficulty.getValue() || this.levelWaiting.getValue() || !this.started.getValue();
+  }
+
+  _startLevelWaiting() {
+    this._stopLevelWaiting();
+
+    let secondsLeft = 5;
+    this.setLevelWaiting(secondsLeft);
+    this.levelWaitingInterval = setInterval(() => {
+      if (secondsLeft) {
+        this.setLevelWaiting(--secondsLeft);
+      } else {
+        this._stopLevelWaiting();
+      }
+    }, 1000);
+  }
+
+  _stopLevelWaiting() {
+    if (this.levelWaitingInterval) clearInterval(this.levelWaitingInterval);
+    if (this.levelWaiting.getValue()) this.setLevelWaiting(0);
   }
 }
