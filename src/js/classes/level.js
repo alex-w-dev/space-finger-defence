@@ -33,12 +33,16 @@ export default class Level {
   /** @type BehaviorSubject<number> */
   totalScore = new BehaviorSubject(0);
 
+  topScore = 0;
+
 
   constructor(game) {
     this.game = game;
     this.pixiApp = game.pixiApp;
 
     this.number = 0 ;
+
+    this.topScore = parseInt(localStorage.getItem('topScore') || 0, 10);
 
     this.game.events.onUFODestroyed.subscribe((UFO) => {
       if (UFO.destroyedBySpaceShip) this.currentLevelScore.next(this.currentLevelScore.getValue() + (this.game.worldContainer.height - UFO.worldY));
@@ -58,6 +62,9 @@ export default class Level {
       this.previousLevelsCore.next(this.previousLevelsCore.getValue() + this.currentLevelScore.getValue());
       this.currentLevelScore.next(0);
       if (this.number === Level.MAX_LEVEL) {
+        this.topScore = Math.max(this.totalScore.getValue(), this.topScore);
+        localStorage.setItem('topScore', this.totalScore.getValue() + '');
+
         this.game.events.onNoMoreLevels.next();
       } else {
         this._initLevel(this.number + 1);

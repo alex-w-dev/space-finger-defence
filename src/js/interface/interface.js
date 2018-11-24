@@ -18,6 +18,10 @@ export default class Interface {
   levelWaitingTimeLeft;
   /** @type PIXI.Text */
   scoreContainer;
+  /** @type PIXI.Text */
+  yourScoreText;
+  /** @type PIXI.Text */
+  topScoreText;
 
 
   /** @type Game */
@@ -36,6 +40,12 @@ export default class Interface {
     this.generateGameWinMenu();
     this.generateLevelWaitingContainer();
     this.generateScoreContainer();
+
+    this.yourScoreText = this._getText('Your Score: N');
+    this.game.interfaceContainer.addChild(this.yourScoreText);
+    this.topScoreText = this._getText('Top Score: N');
+    this.game.interfaceContainer.addChild(this.topScoreText);
+    this._renewFinalScore(false, 0);
 
     this.game.pause.subscribe(this.onGamePauseHandler);
     this.game.started.subscribe(this.onGameStartedHandler);
@@ -56,10 +66,14 @@ export default class Interface {
 
   onGameFailHandler = (fail) => {
     this.gameOverMenu.visible = fail;
+
+    this._renewFinalScore(fail, 60);
   };
 
   onGameWinHandler = (win) => {
     this.gameWinMenu.visible = win;
+
+    this._renewFinalScore(win, 60);
   };
 
   onGameChoosingDifficultyHandler = (choosingDifficulty) => {
@@ -72,6 +86,7 @@ export default class Interface {
 
       this.levelWaitingTimeLeft.text = `${levelWaiting}...`;
       this.levelWaitingWaveText.text = (this.game.level.number === Level.MAX_LEVEL)? 'FINAL WAVE': `WAVE ${this.game.level.number}`;
+      this.levelWaitingWaveText.pivot.x = this.levelWaitingWaveText.width / 2;
     } else {
       this.levelWaitingContainer.visible = false;
     }
@@ -245,5 +260,17 @@ export default class Interface {
     background.drawRect(0, 0, this.game.interfaceContainer.width, this.game.interfaceContainer.height);
     background.endFill();
     return background;
+  }
+
+  _renewFinalScore(visible, marginTop) {
+    this.yourScoreText.text = `Your Score: ${ this.game.level.totalScore.getValue() }`;
+    this.yourScoreText.visible = visible;
+    this.yourScoreText.pivot.x = this.yourScoreText.width / 2;
+    this.yourScoreText.y = this.game.interfaceContainer.height / 2 + marginTop;
+
+    this.topScoreText.text = `Top Score: ${ this.game.level.topScore }`;
+    this.topScoreText.visible = visible;
+    this.topScoreText.pivot.x = this.topScoreText.width / 2;
+    this.topScoreText.y = this.game.interfaceContainer.height / 2 + marginTop + 40;
   }
 }
