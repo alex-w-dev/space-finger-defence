@@ -31,6 +31,8 @@ export default class SpaceUFO {
   pixiApp;
   /** @type boolean */
   destroyedBySpaceShip;
+  /** @type boolean */
+  destroyed;
   /** @type number */
   worldY;
 
@@ -131,6 +133,7 @@ export default class SpaceUFO {
     this.container.destroy();
 
     this.destroyedBySpaceShip = destroyedBySpaceShip;
+    this.destroyed = true;
     this.game.events.onUFODestroyed.next(this);
   }
 

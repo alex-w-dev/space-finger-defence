@@ -41,7 +41,7 @@ export default class Level {
     this.number = 0 ;
 
     this.game.events.onUFODestroyed.subscribe((UFO) => {
-      this.currentLevelScore.next(this.currentLevelScore.getValue() + (this.game.worldContainer.height - UFO.worldY));
+      if (UFO.destroyedBySpaceShip) this.currentLevelScore.next(this.currentLevelScore.getValue() + (this.game.worldContainer.height - UFO.worldY));
 
       if (this.isLevelCompleted()) {
         this.game.events.onLevelCompleted.next();

@@ -181,7 +181,12 @@ export default class Game {
   }
 
   isWorldFrozen() {
-    return this.pause.getValue() || this.choosingDifficulty.getValue() || this.levelWaiting.getValue() || !this.started.getValue();
+    return  this.pause.getValue() ||
+            this.fail.getValue() ||
+            this.win.getValue() ||
+            this.choosingDifficulty.getValue() ||
+            this.levelWaiting.getValue() ||
+            !this.started.getValue();
   }
 
   _startLevelWaiting() {
