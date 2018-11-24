@@ -16,6 +16,8 @@ export default class Interface {
   levelWaitingWaveText;
   /** @type PIXI.Text */
   levelWaitingTimeLeft;
+  /** @type PIXI.Text */
+  scoreContainer;
 
 
   /** @type Game */
@@ -33,6 +35,7 @@ export default class Interface {
     this.generateDifficultyMenu();
     this.generateGameWinMenu();
     this.generateLevelWaitingContainer();
+    this.generateScoreContainer();
 
     this.game.pause.subscribe(this.onGamePauseHandler);
     this.game.started.subscribe(this.onGameStartedHandler);
@@ -40,6 +43,7 @@ export default class Interface {
     this.game.win.subscribe(this.onGameWinHandler);
     this.game.choosingDifficulty.subscribe(this.onGameChoosingDifficultyHandler);
     this.game.levelWaiting.subscribe(this.onGameLevelWaitingHandler);
+    this.game.level.totalScore.subscribe(this.onLevelTotalScoreHandler);
   }
 
   onGamePauseHandler = (gamePause) => {
@@ -72,6 +76,20 @@ export default class Interface {
       this.levelWaitingContainer.visible = false;
     }
   };
+
+  onLevelTotalScoreHandler = (totalScore) => {
+    this.scoreContainer.text = `Score: ${totalScore}`
+  };
+
+  generateScoreContainer() {
+    this.scoreContainer = this._getText('Score: 0');
+    this.scoreContainer.pivot.y = 0;
+    this.scoreContainer.pivot.x = 0;
+    this.scoreContainer.y = 20;
+    this.scoreContainer.x = 20;
+
+    this.game.interfaceContainer.addChild(this.scoreContainer);
+  }
 
   generateStartMenu() {
     this.startMenu = new PIXI.Container();

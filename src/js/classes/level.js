@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import SpaceUFO from "../game-objects/space-ufo";
 import Game from "./game";
+import {BehaviorSubject, merge } from "rxjs/index";
 
 export default class Level {
   static DIFFICULTY_OF_GAME = {
@@ -25,6 +26,13 @@ export default class Level {
   /** @type SpaceUFO[] */
   UFOs = [];
 
+  /** @type BehaviorSubject<number> */
+  previousLevelsCore = new BehaviorSubject(0);
+  /** @type BehaviorSubject<number> */
+  currentLevelScore = new BehaviorSubject(0);
+  /** @type BehaviorSubject<number> */
+  totalScore = new BehaviorSubject(0);
+
 
   constructor(game) {
     this.game = game;
@@ -33,30 +41,39 @@ export default class Level {
     this.number = 0 ;
 
     this.game.events.onUFODestroyed.subscribe((UFO) => {
+      this.currentLevelScore.next(this.currentLevelScore.getValue() + (this.game.worldContainer.height - UFO.worldY));
+
       if (this.isLevelCompleted()) {
         this.game.events.onLevelCompleted.next();
       }
     });
+
+    merge(this.previousLevelsCore, this.currentLevelScore).subscribe(() => {
+      this.totalScore.next(Math.round(this.previousLevelsCore.getValue() + this.currentLevelScore.getValue()));
+    })
   }
 
   nextLevel() {
     if (this.isLevelCompleted()) {
+      this.previousLevelsCore.next(this.previousLevelsCore.getValue() + this.currentLevelScore.getValue());
+      this.currentLevelScore.next(0);
       if (this.number === Level.MAX_LEVEL) {
         this.game.events.onNoMoreLevels.next();
-
-        return;
+      } else {
+        this._initLevel(this.number + 1);
       }
-
-      this._initLevel(++this.number);
     }
   }
 
   restartLevel() {
+    this.currentLevelScore.next(0);
     this.levelAllUFOsDestroy();
     this._initLevel(this.number);
   }
 
   newGame() {
+    this.previousLevelsCore.next(0);
+    this.currentLevelScore.next(0);
     this.levelAllUFOsDestroy();
     this.number = 1;
     this._initLevel(this.number);
@@ -92,8 +109,8 @@ export default class Level {
           UFOLineIndex = (i - countInLine * line)
         }
 
-        UFO.container.x = Level.UFO_GRID_OFFSET / 2 + totalUFOWidth / 2 + totalUFOWidth * UFOLineIndex;
-        UFO.container.y = Level.UFO_GRID_INITIAL_BOTTOM - line * lineHeight;
+        UFO.setWorldX(Level.UFO_GRID_OFFSET / 2 + totalUFOWidth / 2 + totalUFOWidth * UFOLineIndex);
+        UFO.setWorldY(Level.UFO_GRID_INITIAL_BOTTOM - line * lineHeight);
       });
     }
 
