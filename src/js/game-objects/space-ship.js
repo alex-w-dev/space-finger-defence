@@ -21,6 +21,8 @@ export default class SpaceShip {
   texturePlayerLeft;
   /** @type PIXI.Texture */
   texturePlayerRight;
+  /** @type PIXI.Texture */
+  texturePlayerDamaged;
 
   constructor(game) {
     this.game = game;
@@ -29,6 +31,7 @@ export default class SpaceShip {
     this.texturePlayer = new PIXI.Texture.fromImage('../../img/spaceArt/png/player.png');
     this.texturePlayerLeft = new PIXI.Texture.fromImage('../../img/spaceArt/png/playerLeft.png');
     this.texturePlayerRight = new PIXI.Texture.fromImage('../../img/spaceArt/png/playerRight.png');
+    this.texturePlayerDamaged = new PIXI.Texture.fromImage('../../img/spaceArt/png/playerDamaged.png');
 
     this.sprite = this.container = new PIXI.Sprite(this.texturePlayer);
     this.sprite.anchor.set(0.5);
@@ -37,6 +40,11 @@ export default class SpaceShip {
 
     this.game.worldContainer.addChild(this.sprite);
     this.pixiApp.ticker.add(this.tick);
+
+    this.game.fail.subscribe((fail) => {
+      if (fail) this.sprite.texture = this.texturePlayerDamaged;
+      else this.sprite.texture = this.texturePlayer;
+    });
   }
 
   tick = (deltaTime) => {
