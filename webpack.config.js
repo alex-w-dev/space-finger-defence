@@ -92,6 +92,10 @@ module.exports = {
         to: './img'
       },
       {
+        from: './src/sounds',
+        to: './sounds'
+      },
+      {
         from: './src/uploads',
         to: './uploads'
       }

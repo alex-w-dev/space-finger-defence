@@ -194,7 +194,7 @@ export default class Game {
 
     this._stopLevelWaiting();
 
-    let secondsLeft = 5;
+    let secondsLeft = Level.WAVE_WAITING_TIME;
     this.setLevelWaiting(secondsLeft);
     this.levelWaitingInterval = setInterval(() => {
       if (secondsLeft) {

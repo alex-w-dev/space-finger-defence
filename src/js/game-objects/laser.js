@@ -32,6 +32,9 @@ export default class Laser {
 
     this.game.worldContainer.addChild(this.sprite);
 
+    const audio = new Audio('../../sounds/laser_shooting_sfx.wav');
+    audio.play();
+
     this.pixiApp.ticker.add(this.tick);
   }
 
