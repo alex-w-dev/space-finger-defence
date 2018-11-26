@@ -111,7 +111,7 @@ export default class Interface {
 
     this.startMenu.addChild(this._getGrayBG());
 
-    const button = new Button('Start', () => this.game.events.onNewGameClick.next());
+    const button = new Button('Start', () => this.game.events.onNewGameClick.next(), this.game);
     button.y = this.game.interfaceContainer.height / 2;
     button.x = this.game.interfaceContainer.width / 2;
     this.startMenu.addChild(button);
@@ -144,17 +144,17 @@ export default class Interface {
     pauseText.y = this.game.interfaceContainer.height / 2 - 120;
     this.pauseContainer.addChild(pauseText);
 
-    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next());
+    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next(), this.game);
     newGameButton.y = this.game.interfaceContainer.height / 2 - 60;
     newGameButton.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(newGameButton);
 
-    const restartLevelButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next());
+    const restartLevelButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next(), this.game);
     restartLevelButton.y = this.game.interfaceContainer.height / 2;
     restartLevelButton.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(restartLevelButton);
 
-    const continueButton = new Button('Continue', () => this.game.events.onPauseClick.next());
+    const continueButton = new Button('Continue', () => this.game.events.onPauseClick.next(), this.game);
     continueButton.y = this.game.interfaceContainer.height / 2 + 60;
     continueButton.x = this.game.interfaceContainer.width / 2;
     this.pauseContainer.addChild(continueButton);
@@ -176,12 +176,12 @@ export default class Interface {
     gameOverText.x = this.game.interfaceContainer.width / 2;
     this.gameOverMenu.addChild(gameOverText);
 
-    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next());
+    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next(), this.game);
     newGameButton.y = this.game.interfaceContainer.height / 2 - 60;
     newGameButton.x = this.game.interfaceContainer.width / 2;
     this.gameOverMenu.addChild(newGameButton);
 
-    const restartButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next());
+    const restartButton = new Button('Restart Level', () => this.game.events.onRestartLevelClick.next(), this.game);
     restartButton.y = this.game.interfaceContainer.height / 2;
     restartButton.x = this.game.interfaceContainer.width / 2;
     this.gameOverMenu.addChild(restartButton);
@@ -202,7 +202,7 @@ export default class Interface {
     youWinText.y = this.game.interfaceContainer.height / 2 - 60;
     this.gameWinMenu.addChild(youWinText);
 
-    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next());
+    const newGameButton = new Button('New Game', () => this.game.events.onNewGameClick.next(), this.game);
     newGameButton.y = this.game.interfaceContainer.height / 2;
     newGameButton.x = this.game.interfaceContainer.width / 2;
     this.gameWinMenu.addChild(newGameButton);
@@ -219,22 +219,22 @@ export default class Interface {
     gameOverText.y = this.game.interfaceContainer.height / 2 - 180;
     this.gameDifficultyMenu.addChild(gameOverText);
 
-    const easyButton = new Button('Easy', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.EASY));
+    const easyButton = new Button('Easy', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.EASY), this.game);
     easyButton.y = this.game.interfaceContainer.height / 2 - 120;
     easyButton.x = this.game.interfaceContainer.width / 2;
     this.gameDifficultyMenu.addChild(easyButton);
 
-    const normalButton = new Button('Normal', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.NORMAL));
+    const normalButton = new Button('Normal', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.NORMAL), this.game);
     normalButton.y = this.game.interfaceContainer.height / 2 - 60;
     normalButton.x = this.game.interfaceContainer.width / 2;
     this.gameDifficultyMenu.addChild(normalButton);
 
-    const hardButton = new Button('Hard', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.HARD));
+    const hardButton = new Button('Hard', () => this.game.events.onSelectDifficultyClick.next(Level.DIFFICULTY_OF_GAME.HARD), this.game);
     hardButton.y = this.game.interfaceContainer.height / 2;
     hardButton.x = this.game.interfaceContainer.width / 2;
     this.gameDifficultyMenu.addChild(hardButton);
 
-    const mainMenuButton = new Button('Main Menu', () => this.game.events.onMainMenuClick.next());
+    const mainMenuButton = new Button('Main Menu', () => this.game.events.onMainMenuClick.next(), this.game);
     mainMenuButton.y = this.game.interfaceContainer.height / 2  + 60;
     mainMenuButton.x = this.game.interfaceContainer.width / 2;
     this.gameDifficultyMenu.addChild(mainMenuButton);

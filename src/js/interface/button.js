@@ -9,6 +9,9 @@ export default class Button extends PIXI.Sprite {
   /** @type PIXI.Text */
   text;
 
+  /** @type Game */
+  game;
+
   get clicked() {
     return this._cb;
   }
@@ -17,8 +20,9 @@ export default class Button extends PIXI.Sprite {
   }
   _cb;
 
-  constructor(text, cb) {
+  constructor(text, cb, game) {
     super();
+    this.game = game;
     this.create(text, cb);
   }
 
@@ -57,6 +61,7 @@ export default class Button extends PIXI.Sprite {
   onDown() {
     this.scale.x = .95;
     this.scale.y = .95;
+    this.game.audioPlayer.playByPath('../../sounds/click.wav');
   }
 
   onUp() {
@@ -71,6 +76,7 @@ export default class Button extends PIXI.Sprite {
     this.tint = activeBgColor;
     this.scale.x = 1.05;
     this.scale.y = 1.05;
+    this.game.audioPlayer.playByPath('../../sounds/hover.wav');
   }
 
   onOut() {

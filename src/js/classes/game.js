@@ -3,6 +3,7 @@ import Level from "./level";
 import SpaceShip from "../game-objects/space-ship";
 import InputHandler from "./input-handler";
 import Interface from "../interface/interface";
+import AudioPlayer from "./audio-player";
 import {BehaviorSubject} from "rxjs/index";
 
 export default class Game {
@@ -21,6 +22,8 @@ export default class Game {
   spaceShip;
   /** @type Events */
   events;
+  /** @type AudioPlayer */
+  audioPlayer;
 
   /** @type PIXI.Container */
   worldContainer;
@@ -62,6 +65,7 @@ export default class Game {
     }
 
     this.inputHandler = new InputHandler(this);
+    this.audioPlayer = new AudioPlayer(this);
     this.events = new Events(this);
     this.spaceShip = new SpaceShip(this);
     this.level = new Level(this);
