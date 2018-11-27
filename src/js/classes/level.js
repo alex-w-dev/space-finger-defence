@@ -14,7 +14,7 @@ export default class Level {
   static UFO_GRID_INITIAL_BOTTOM = 100;
   static UFO_OFFSET = 10;
   static MAX_LEVEL = 3;
-  static WAVE_WAITING_TIME = 1;
+  static WAVE_WAITING_TIME = 5;
 
   /** @type number */
   difficulty = Level.DIFFICULTY_OF_GAME.EASY;

@@ -202,6 +202,7 @@ export default class Game {
     this.setLevelWaiting(secondsLeft);
     this.levelWaitingInterval = setInterval(() => {
       if (secondsLeft) {
+        this.audioPlayer.playByPath('../../sounds/seconts-tick.wav');
         this.setLevelWaiting(--secondsLeft);
       } else {
         this._stopLevelWaiting();

@@ -135,6 +135,10 @@ export default class SpaceUFO {
     this.destroyedBySpaceShip = destroyedBySpaceShip;
     this.destroyed = true;
     this.game.events.onUFODestroyed.next(this);
+
+    if (this.destroyedBySpaceShip) {
+      this.game.audioPlayer.playByPath('../../sounds/ufo-destroy.wav');
+    }
   }
 
   getFreeTextChar(char) {
