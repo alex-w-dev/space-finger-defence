@@ -53,6 +53,8 @@ export default class SpaceShip {
     }
     const spaceUFOTextChar = this.spaceUFOTextChars[0];
 
+    if (spaceUFOTextChar.UFO.destroyed) return this.spaceUFOTextChars.shift();
+
     if (Math.abs(this.container.x - spaceUFOTextChar.UFO.container.x) <= (SpaceShip.MOVE_STEP_SIZE / 2)) {
       this.container.x = spaceUFOTextChar.UFO.container.x;
       this.sprite.texture = this.texturePlayer;

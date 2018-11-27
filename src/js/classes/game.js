@@ -5,10 +5,11 @@ import InputHandler from "./input-handler";
 import Interface from "../interface/interface";
 import AudioPlayer from "./audio-player";
 import {BehaviorSubject} from "rxjs/index";
+import * as PIXI from "pixi.js";
 
 export default class Game {
-  // static SHOOT_CHARS = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  static SHOOT_CHARS = 'aaaaaaaaaaaa'.split('');
+  static SHOOT_CHARS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  // static SHOOT_CHARS = 'aaaaaaaaaaaa'.split('');
 
   /** @type PIXI.Application */
   pixiApp;
@@ -48,6 +49,42 @@ export default class Game {
   constructor(pixiApp) {
     this.pixiApp = pixiApp;
 
+    const textLoading = new PIXI.Text('Loading...', new PIXI.TextStyle({
+      fill: 'black',
+      fontSize: 40,
+    }));
+    textLoading.pivot.y = textLoading.height / 2;
+    textLoading.pivot.x = textLoading.width / 2;
+    textLoading.y = this.pixiApp.screen.height / 2;
+    textLoading.x = this.pixiApp.screen.width / 2;
+    this.pixiApp.stage.addChild(textLoading);
+
+    this.pixiApp.loader.add('../../img/spaceArt/png/Background/starBackground.png');
+    this.pixiApp.loader.add('../../img/spaceArt/png/enemyShip.png');
+    this.pixiApp.loader.add('../../img/spaceArt/png/laserRed.png');
+    this.pixiApp.loader.add('../../img/spaceArt/png/laserRedShot.png');
+    this.pixiApp.loader.add('../../img/spaceArt/png/player.png');
+    this.pixiApp.loader.add('../../img/spaceArt/png/playerLeft.png');
+    this.pixiApp.loader.add('../../img/spaceArt/png/playerRight.png');
+    this.pixiApp.loader.add('../../img/spaceArt/png/playerDamaged.png');
+
+    this.pixiApp.loader.add('../../sounds/click.wav');
+    this.pixiApp.loader.add('../../sounds/hover.wav');
+    this.pixiApp.loader.add('../../sounds/seconts-tick.wav');
+    this.pixiApp.loader.add('../../sounds/laser_shooting_sfx.wav');
+    this.pixiApp.loader.add('../../sounds/ufo-destroy.wav');
+
+
+    this.pixiApp.loader.load(() => {
+      this.pixiApp.stage.removeChild(textLoading);
+      textLoading.destroy();
+      this.initGame();
+    });
+
+
+  }
+
+  initGame() {
     this.backgroundContainer = new PIXI.Container();
     const worldBG = new PIXI.extras.TilingSprite(PIXI.Texture.fromImage('../../img/spaceArt/png/Background/starBackground.png'), 800, 600);
     this.pixiApp.ticker.add(delta => worldBG.tilePosition.y += delta * .05);

@@ -13,7 +13,7 @@ export default class Level {
   static UFO_GRID_OFFSET = 50;
   static UFO_GRID_INITIAL_BOTTOM = 100;
   static UFO_OFFSET = 10;
-  static MAX_LEVEL = 3;
+  static MAX_LEVEL = 10;
   static WAVE_WAITING_TIME = 5;
 
   /** @type number */
